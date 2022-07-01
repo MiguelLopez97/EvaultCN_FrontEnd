@@ -1,0 +1,151 @@
+<div class="modal-header">
+  <h4 class="modal-title mb-0">{{tituloModal}}</h4>
+  <a class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </a>
+</div>
+<form [formGroup]="conceptosCostoCompraForm" (ngSubmit)="saveDetalleCostoDeCompraYCartaDeCN()" *ngIf="!loading">
+  <div class="modal-body">
+
+    <div class="row">            
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Material o Servicio</label>
+          <select class="form-control" formControlName="materialServicio" [class.is-invalid]="materialServicioNoValido">
+            <option value="" selected disabled>Seleccione una opción</option>
+            <option *ngFor="let actividad of actividadesConcepto" [value]="actividad.idActividadConcepto">{{actividad.actividad}}</option>
+          </select>
+          <small *ngIf="materialServicioNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Descripción del material o servicio </label>
+          <input type="text" class="form-control" formControlName="descripcionMaterialServicio" [class.is-invalid]="descripcionMaterialServicioNoValido">
+          <small *ngIf="descripcionMaterialServicioNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-md-6">
+        <label>Nombre del proveedor</label>
+        <div class="input-group">          
+          <select class="form-control" formControlName="idProveedor" [class.is-invalid]="proveedorNoValido">
+            <option value="" selected disabled>Seleccione una opción</option>
+            <option *ngFor="let proveedor of proveedoresEmpresa" [value]="proveedor.idEmpresa">{{proveedor.razonSocial}}</option>
+          </select>
+          <!-- <ng-select [items]="proveedoresEmpresa"
+                    bindLabel="razonSocial"
+                    bindValue="od"
+                    autofocus
+                    placeholder="Seleccione el proveedor"
+                    addTagText="Agregar"
+                    loadingText="Cargando..."
+                    notFoundText="No se encontraron resultados"
+                    typeToSearchText="Escribe para buscar"
+                    [virtualScroll]="true"
+                    [multiple]="false"
+                    formControlName="idProveedor">
+            <ng-option *ngFor="let proveedor of proveedoresEmpresa" [value]="proveedor.idEmpresa">{{proveedor.razonSocial}}</ng-option>
+         </ng-select> -->
+          <div class="input-group-append">
+            <button class="btn btn-add" type="button" (click)="openModalAddProveedor()">
+              <i class="fas fa-plus"></i> Agregar
+            </button>
+          </div>
+        </div>
+        <small *ngIf="proveedorNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+      </div>
+        
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>RFC del proveedor</label>
+          <input type="text" class="form-control" formControlName="rfcProveedor">
+        </div>              
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-9 text-right">
+        <label>Valor factura del material o servicio (VMSj)</label>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" class="form-control" formControlName="valorFactura" [class.is-invalid]="valorFacturaNoValido" (keypress)="validaNumeros($event)" maxlength="11">
+          <small *ngIf="valorFacturaNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-9 text-right">
+        <label>Proporción de Contenido Nacional del material o servicio (PCNMSj)</label>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" class="form-control" formControlName="proporcionCN" [class.is-invalid]="proporcionCNNoValido" (keypress)="validaNumeros($event)" maxlength="6">
+          <small *ngIf="proporcionCNNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-9 text-right">
+        <label>Contenido Nacional del material o servicio (pesos) (PCNMSj x VMSj)</label>
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" formControlName="CNMaterialServicio">
+      </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="proporcionCN > 0">
+      <div class="col-12">
+        <div class="alert alert-info" role="alert" *ngIf="!existeArchivoCN">
+          <p class="mb-0">
+            Al declarar Proporción de Contenido Nacional del Material o Servicio (PCNMSj), es necesario subir un 
+            comprobante que demuestre el porcentaje de Contenido Nacional declarado anteriormente.
+          </p>          
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-5">
+            <div class="d-inline">
+              <input class="form-control border border-white ml-1" (change)="onChangeFileInput($event)" #fileInput type="file" accept=".pdf">
+            </div> 
+            <small class="text-secondary">Sólo se permiten archivos con extensión .pdf</small>
+          </div>
+          <div class="col-12 col-md-7" *ngIf="existeArchivoCN">
+            <div class="alert alert-success" role="alert">
+              <h5>Evidencia de Contenido Nacional <i class="fas fa-check-circle"></i></h5> 
+              <p class="mb-0">
+                <a class="btn btn-save" href="{{URLArchivoCN}}" target="_blank">Ver evidencia cargada</a>
+              </p>          
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+
+  </div>
+
+  <div class="modal-footer mb-2">
+    <button type="submit" class="btn btn-save mr-1" [disabled]="(!localPDFSelected && proporcionCN > 0 && !existeArchivoCN)">Guardar</button>
+    <button type="button" class="btn btn-cancel" (click)="activeModal.close('Close click')">Cancelar</button>
+  </div>
+</form>
+
+
+<!---Div a mostrar cuando estén cargando los datos-->
+<div class="alert text-center" *ngIf="loading">
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+</div>

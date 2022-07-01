@@ -1,0 +1,73 @@
+.btn-save{
+    background-color: #A0C334;
+    color: #FFFFFF;
+}
+
+.btn-save:hover{
+    background-color: #8FAD31;
+}
+
+.btn-cancel{
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+.btn-cancel:hover{
+    background-color: #4C4C4C;
+}
+
+.fa-spin {
+    color: #5D5D5D;
+}
+
+//Color del texto color verde
+.text-valido{
+    color: #A0C334;
+}
+
+//Cambia el puntero "deshabilitado" cuando se pasa el mouse sobre un input deshabilitado
+input[disabled]{
+    cursor: not-allowed;
+}
+
+//Estilos para el modal de Cambiar Contraseña
+.contenedor{
+    width: 80%;
+}
+
+.fa-key{
+    font-size: 18px;
+    color: #E5D429;
+}
+
+.btn-change-pass {
+    border-color: #8FAD31;
+    color: #8FAD31 !important;
+    background-color: #FFFFFF;
+}
+  
+.btn-change-pass:hover {
+    background-color: #A0C334;
+    color: #FFFFFF !important;
+}
+
+.btn-save-pass{
+    background-color: #A0C334;
+    color: #FFFFFF;
+    width: 47%;
+}
+
+.btn-save-pass:hover{
+    background-color: #8FAD31;
+}
+
+.btn-cancel-pass{
+    background-color: #5D5D5D;
+    color: #FFFFFF !important;
+    width: 47%;
+}
+
+.btn-cancel-pass:hover{
+    background-color: #4C4C4C;
+}
+//End Estilos para el modal de Cambiar Contraseña

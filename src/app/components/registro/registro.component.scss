@@ -1,0 +1,64 @@
+.transparencia {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+#registro {
+  background-image: url('../../../assets/img/sidebar-bg/evault.jpg');
+  //background-size: 100% 100%;
+  //background-repeat: no-repeat;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  
+  .register-img {
+    background: #f0f0f0;
+    padding: 0;
+  }
+
+  .btn-cancel{
+    background-color: #5D5D5D;
+    width: 48%;
+    color: #FFFFFF; 
+  }
+
+  .btn-cancel:hover{
+    background-color: #4C4C4C;
+  }
+
+  .btn-submit{
+    background-color: #A0C334;
+    width: 48%;
+    color: #FFFFFF;     
+  }
+
+  .btn-submit:hover{
+    background-color:  #8FAD31;
+  }
+  
+  .login-btn {
+    .btn.btn-outline-primary {
+      &:hover {
+        a {
+          color: #fff;
+        }
+      }
+    }
+  }
+  
+  .recover-pass {
+    button.btn.btn-primary {
+      color: #fff !important;
+    }
+  }
+} 
+
+//Responsive para el texto 'Todos los derechos reservados' (que se haga pequeño en dispositivos moviles)
+@media (max-width: 576px) {
+  small {
+    font-size: 47%;
+  }
+}

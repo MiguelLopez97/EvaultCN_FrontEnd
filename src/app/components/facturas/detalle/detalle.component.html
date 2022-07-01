@@ -1,0 +1,76 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="card card-detalles">
+      <div class="card-header">
+        <h4 class="card-title mb-0"><i class="far fa-file-alt icon-detalle"></i> Detalles</h4>
+      </div>
+      <hr>
+      <div class="card-content">
+        <!---Botón para regresar a la tabla de Partidas-->
+        <button type="button" class="btn btn-sm btn-back mb-0 ml-3" [routerLink]="['/facturas', idCFDIDoc, 'partidas', idCFDIDoc]">
+          <i class="fas fa-arrow-left"></i> Regresar
+        </button>
+        <!---End Botón para regresar a la tabla de Partidas-->
+
+        <!---Botón para regresar al tab 'Cálculo de Contenido Nacional'-->
+        <!-- <button type="button" class="btn btn-sm btn-back mb-0 ml-2" [routerLink]="['/facturas', idCFDIDoc, 'calculo-cn', idCFDIDoc]">
+          <i class="fas fa-arrow-left"></i> Regresar a Cálculo de Contenido Nacional
+        </button> -->
+        <!---End Botón para regresar al tab 'Cálculo de Contenido Nacional'-->
+
+        <div class="card-body">
+
+          <!---Tabsets (Detalle de la Partida y Detalle del Cálculo)-->
+          <ul class="nav nav-tabs nav-justified" role="tablist">              
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" 
+                  data-toggle="tab" 
+                  [routerLink]="['/facturas/', idCFDIDoc, 'partidas', idCFDIDoc, 'detalle', idCFDIDetalle, 'partida', idCFDIDoc, idCFDIDetalle]" 
+                  [routerLinkActive]="['active']" 
+                  role="tab" 
+                  aria-selected="false">
+                <i class="fas fa-layer-group"></i> Detalle de la partida
+              </a>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" 
+                  data-toggle="tab" 
+                  [routerLink]="['/facturas/', idCFDIDoc, 'partidas', idCFDIDoc, 'detalle', idCFDIDetalle, 'calculo', idCFDIDoc, idCFDIDetalle]" 
+                  [routerLinkActive]="['active']" 
+                  role="tab" 
+                  aria-selected="false">
+                <i class="fas fa-calculator"></i> Detalle del cálculo
+              </a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!--Aquí se cargan las vistas que se seleccionen en los Tabs-->
+            <router-outlet></router-outlet>
+          </div>
+          <!---End Tabsets (Detalle de la Partida y Detalle del Cálculo)-->
+
+          <!---<ngb-tabset #tabSet="ngbTabset" class="nav-justified">              
+            <ngb-tab id="tab-1">
+              <ng-template ngbTabTitle><i class="fas fa-layer-group"></i> Detalle de la partida</ng-template>                
+              <ng-template ngbTabContent>
+                !---Formulario Detalles de la Partida--
+                <app-form-detalles></app-form-detalles>
+              </ng-template>
+            </ngb-tab>
+            
+            <ngb-tab id="tab-2" >
+              <ng-template ngbTabTitle><i class="fas fa-calculator"></i> Detalle del cálculo</ng-template>
+              <ng-template ngbTabContent>
+                !---Detalle del cálculo a nivel Partida--
+                <app-detalle-calculo-partida></app-detalle-calculo-partida>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>--->
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<form (ngSubmit)="getPartidasAll(generarCartaForm)" #generarCartaForm="ngForm">
+  <div class="form-body"> 
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Seleccione el CFDI</label>
+          <select class="form-control"
+                  #CFDI="ngModel"
+                  [class.is-invalid]="CFDI.invalid && CFDI.touched"
+                  name="idCFDI"
+                  [(ngModel)]="idCFDI"
+                  required>
+            <option [ngValue]="undefined" selected disabled>Seleccione una opción</option>
+            <option *ngFor="let cfdi of CFDIDocs" [value]="cfdi.idDoc">
+              Documento #{{cfdi.idDoc}} con No. de Factura {{cfdi.numeroFactura == '' ? "(sin número)" : cfdi.numeroFactura}} de fecha {{cfdi.fechaFactura | date: 'mediumDate'}}
+            </option>
+          </select>
+          <small *ngIf="CFDI.invalid && CFDI.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div class="d-none d-md-block"><label>&nbsp;</label></div>
+          <button type="submit" class="btn btn-cancel" [disabled]="loadingPartidas">
+            Generar carta <i class="spinner fa fa-sync-alt" *ngIf="loadingPartidas"></i>
+          </button>
+        </div>        
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-actions mt-n2 pt-0"></div>
+
+  <!---Sección 'Seleccione las partidas'-->
+  <div class="animated fadeInUp" *ngIf="CFDIPartidas.length > 0">
+    <!---<label>Seleccione las partidas</label>--->
+
+    <!---<div *ngFor="let partida of CFDIPartidas">
+      --<div class="input-group" *ngIf="partida.porcentajeCN != 0">
+        <div class="input-group-prepend" >
+          <div class="input-group-text">
+            <input type="checkbox" name="checkbox" id="{{partida.idCFDIDetalle}}">
+          </div>
+        </div>  
+        <label for="{{partida.idCFDIDetalle}}" class="label-disabled">{{partida.partida}}</label>   
+      </div>---
+    </div>--->
+
+    <!-- <div class="alert alert-warning text-center animated fadeInUp" *ngIf="!contienePorcentajeCN && !loadingPartidas">
+      <p>
+        <i class="fas fa-info-circle fa-6x"></i>
+      </p>
+      <h4 class="alert-heading">¡Lo sentimos! Las partidas de esta factura no cumplen con el porcentaje de Contenido Nacional</h4>
+      <small>*Para generar la carta, es necesario que por lo menos una partida tenga porcentaje de Contenido Nacional en Bienes, Servicios y/o Materiales</small>
+    </div> -->
+
+    <div class="alert alert-success text-center animated fadeInUp" *ngIf="!loadingPartidas"><!---*ngIf="contienePorcentajeCN && !loadingPartidas"-->
+      <p>
+        <i class="fas fa-check-circle fa-6x"></i>
+      </p>
+      <h4 class="alert-heading">Todo listo para descargar la carta de Contenido Nacional</h4>
+      <p>
+        Documento #{{CFDIDocSelected.idDoc}} con No. de Factura {{CFDIDocSelected.numeroFactura == '' ? "(sin número)" : CFDIDocSelected.numeroFactura}} de fecha {{CFDIDocSelected.fechaFactura | date: 'mediumDate'}}
+      </p>
+      
+
+      <a class="btn btn-save" *ngIf="contienePorcentajeCN" (click)="generateCarta()">Da clic aquí para descargar la carta</a>
+    </div>
+  </div>
+
+  <div class="alert text-center" *ngIf="loadingPartidas">
+    <p>
+      <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+    </p>
+  </div>
+</form>

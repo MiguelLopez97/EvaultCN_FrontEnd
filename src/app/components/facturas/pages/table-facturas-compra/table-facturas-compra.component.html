@@ -1,0 +1,211 @@
+<form class="form">
+  <div class="form-body">
+    <div class="row d-flex justify-content-end">
+      <!---<div class="col-md-3">
+        <div class="form-group">
+          <label>RFC</label>
+          <input type="text" class="form-control" name="filterRFC" placeholder="Filtrar por RFC" [(ngModel)]="filterRFC">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Estatus</label>
+          <select class="form-control" name="filterEstatus" [(ngModel)]="filterEstatus">
+            <option *ngFor="let estatus of estatusCFDI" [disabled]="estatus.idEstatusCFDI == ''" [selected]="estatus.idEstatusCFDI == ''" [value]="estatus.idEstatusCFDI">{{estatus.EstatusCFDI}}</option>
+          </select>
+        </div>
+      </div>--->
+
+      <!---<div class="col-md-3">
+        <div class="form-group">
+          <label>Contenido Nacional</label>
+          <select class="form-control" (change)="filtrarPorContenidoNacional($event)">
+            <option *ngFor="let opcion of filtrarContenidoNacional" [disabled]="opcion.idOpcion == ''" [selected]="opcion.idOpcion == ''" [value]="opcion.idOpcion">{{opcion.opcion}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Fracción Arancelaria</label>
+          <select class="form-control" (change)="filtrarPorFraccionArancelaria($event)">
+            <option *ngFor="let opcion of filtrarFraccion" [disabled]="opcion.idOpcion == ''" [selected]="opcion.idOpcion == ''" [value]="opcion.idOpcion">{{opcion.opcion}}</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Estatus</label>
+          <select class="form-control" name="filterEstatus" (change)="filtrarPorEstatus($event)">
+            <option *ngFor="let estatus of estatusCFDI" [disabled]="estatus.idEstatusCFDI == ''" [selected]="estatus.idEstatusCFDI == ''" [value]="estatus.idEstatusCFDI">{{estatus.EstatusCFDI}}</option>
+          </select>
+        </div>
+      </div>--->
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>RFC</label>
+          <input type="text" class="form-control" placeholder="Filtrar por RFC" (keyup)="filtrarPorRFC($event)">
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Filtrar por</label>
+          <select class="form-control" name="filter" (change)="filtrarPor($event)">
+            <option *ngFor="let opcion of opcionesFiltro" [value]="opcion.opcion">{{opcion.nombreOpcion}}</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+<ngx-datatable 
+  [rows]="rows" 
+  class="bootstrap"  
+  [loadingIndicator]="loadingIndicator"
+  [columnMode]="'force'"
+  [headerHeight]="'auto'"
+  [rowHeight]="'auto'"
+  [footerHeight]="50"
+  [limit]="10"
+  [messages]="{emptyMessage: 'No se han encontrado coincidencias', totalMessage: 'total'}"
+  [scrollbarH]="false"
+  *ngIf="rows.length > 0 || facturasAll.length > 0"> 
+  <ngx-datatable-column name="ID CFDI" prop="idDoc">
+    <ng-template let-idDoc="value" ngx-datatable-cell-template>
+      <a [routerLink]="['/facturas', idDoc, 'datos-generales', idDoc]">{{idDoc}}</a>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="No. de Factura" prop="numeroFactura">
+    <ng-template let-numeroFactura="value" ngx-datatable-cell-template>{{numeroFactura}}</ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="RFC" prop="rfcProveedor">
+    <ng-template let-rfcProveedor="value" ngx-datatable-cell-template>{{rfcProveedor}}</ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Razón social" prop="razonSocialProveedor">
+    <ng-template let-razonSocialProveedor="value" ngx-datatable-cell-template>{{razonSocialProveedor}}</ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Contenido Nacional" prop="revisar100">
+    <ng-template let-revisar100="value" ngx-datatable-cell-template>
+      <span class="badge badge-pill badge-si" *ngIf="revisar100 == true">Si</span>
+      <span class="badge badge-pill badge-no" *ngIf="revisar100 == false">No</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Fecha" prop="fechaFactura">
+    <ng-template let-fechaFactura="value" ngx-datatable-cell-template>{{fechaFactura | date: 'mediumDate'}}</ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Estatus" prop="estatusCFDI">
+    <ng-template let-estatusCFDI="value" ngx-datatable-cell-template>
+      <span class="badge badge-pill badge-400-success" *ngIf="estatusCFDI == 'Revisado'">{{estatusCFDI}}</span>
+      <span class="badge badge-pill badge-400-warning" *ngIf="estatusCFDI == 'Por Revisar'">{{estatusCFDI}}</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Opciones">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <a class="info p-0" [routerLink]="['/facturas', row.idDoc, 'datos-generales', row.idDoc]" placement="top" ngbTooltip="Ver detalle" container="body"> 
+        <i class="far fa-eye font-medium-3 mr-2"></i>
+      </a>
+      <a class="success p-0" placement="top" ngbTooltip="Cambiar estatus a 'Revisado'" *ngIf="row.idEstatusCFDI == 1" (click)="updateEstatusCFDI(row.idDoc, 2)" (click)="row.idEstatusCFDI = 2" (click)="row.estatusCFDI = 'Revisado'" container="body">
+        <i class="fas fa-check font-medium-3 mr-2"></i>
+      </a>
+      <a class="warning p-0" placement="top" ngbTooltip="Cambiar estatus a 'Por Revisar'" *ngIf="row.idEstatusCFDI == 2" (click)="updateEstatusCFDI(row.idDoc, 1)" (click)="row.idEstatusCFDI = 1" (click)="row.estatusCFDI = 'Por Revisar'" container="body">
+        <i class="far fa-clock font-medium-3 mr-2"></i>
+      </a>
+      <a class="danger p-0" (click)="deleteCFDIDoc(row.idDoc)" placement="top" ngbTooltip="Eliminar" container="body">
+        <i class="fas fa-times font-medium-3 mr-2"></i>
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
+
+<!---Div a mostrar cuando estén cargando los datos-->
+<div class="alert text-center" *ngIf="loading && rows.length == 0">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<!----
+<table class="table table-hover table-responsive-md text-center">
+  <thead>
+    <tr>
+      <th>No. Factura</th>
+      <th>RFC</th>
+      <th>Razón social</th>
+      <th>Fecha</th>
+      <th>Estatus</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="fila-sin-hover" *ngIf="!facturasAll">
+      <td colspan="6">
+        <div class="alert text-center">
+          <h4 class="alert-heading">Cargando</h4>
+          <p>
+            <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+          </p>
+          <p class="mb-0">
+            Espere por favor
+          </p>
+        </div>
+      </td>
+    </tr>
+
+    <tr class="fila-sin-hover" *ngIf="facturasAll && facturasAll.length === 0">
+      <td colspan="6">
+        <div class="alert alert-dark text-center">
+          <p>
+            <i class="fas fa-info-circle fa-6x"></i>
+          </p>
+          <h4 class="alert-heading">No hay datos para mostrar</h4>
+        </div>
+      </td>
+    </tr> 
+    <tr *ngFor="let factura of facturasAll | paginate: { itemsPerPage: 10, currentPage: pageActual } | filterEstatusCFDI:filterEstatus | filterRFC:filterRFC">
+      <td>{{factura.numeroFactura}}</td>                  
+      <td>{{factura.rfcProveedor}}</td>
+      <td>{{factura.razonSocialProveedor}}</td>
+      <td>{{factura.fechaFactura | date: 'mediumDate'}}</td>
+      <td>{{factura.estatusCFDI}}</td>
+      <td>
+        <a class="info p-0" [routerLink]="['/facturas', factura.idDoc, 'datos-generales', factura.idDoc]" placement="top" ngbTooltip="Ver detalle">
+          <i class="far fa-eye font-medium-3 mr-2"></i>
+        </a>
+        ---
+        <a class="secondary p-0" data-original-title="" placement="top" ngbTooltip="Ver carta">          
+          <i class="far fa-file-alt font-medium-3 mr-2"></i>
+        </a>
+        --
+        <a class="success p-0" placement="top" ngbTooltip="Cambiar estatus a 'Revisado'" *ngIf="factura.idEstatusCFDI == 1" (click)="updateEstatusCFDI(factura.idDoc, 2)" (click)="factura.idEstatusCFDI = 2" (click)="factura.estatusCFDI = 'Revisado'">
+          <i class="fas fa-check font-medium-3 mr-2"></i>
+        </a>
+        <a class="warning p-0" placement="top" ngbTooltip="Cambiar estatus a 'Por Revisar'" *ngIf="factura.idEstatusCFDI == 2" (click)="updateEstatusCFDI(factura.idDoc, 1)" (click)="factura.idEstatusCFDI = 1" (click)="factura.estatusCFDI = 'Por Revisar'">
+          <i class="far fa-clock font-medium-3 mr-2"></i>
+        </a>
+        <a class="danger p-0" data-original-title="" placement="top" ngbTooltip="Eliminar">
+          <i class="fas fa-times font-medium-3 mr-2"></i>
+        </a>
+      </td>
+    </tr>  
+  </tbody>
+</table>--->
+
+<!---<div class="d-flex justify-content-center" *ngIf="facturasAll">
+  <pagination-controls class="text-center table-pagination" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pageActual = $event" ></pagination-controls>
+</div>--->

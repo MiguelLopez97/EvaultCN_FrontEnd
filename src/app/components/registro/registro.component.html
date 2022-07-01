@@ -1,0 +1,84 @@
+<section id="registro">
+  <div class="transparencia">
+    <div class="container-fluid bg-transparent">
+      <div class="row min-vh-100 m-0 bg-transparent"><!---full-height-vh-->
+        <div class="col-12 d-flex align-items-center justify-content-center bg-transparent">
+          <div class="card bg-transparent ">
+            <div class="card-content bg-transparent">
+              <div class="card-body register-img bg-transparent ">
+                <div class="row m-0 animated fadeInLeft">
+                  <div class="col-lg-6 d-none d-lg-flex align-items-center mt-n5 text-center">
+                    <img src="../../../assets/img/logo_tecnikal.png" alt="" class="img-fluid mt-3" width="400" height="230">
+                  </div>
+                  <div class="col-lg-6 col-md-12 pt-3 px-4 bg-white text-center">
+                    <h4 class="card-title mb-4 text-center">Registro</h4>
+                    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+
+                      <input type="email" class="form-control mb-3" formControlName="correoElectronico" placeholder="Correo electrónico">
+
+                      <input type="tel" class="form-control mb-3" formControlName="telefono" #numeros (keypress)="validaNumeros($event)" (keyup)="keyUpEvent(numeros)" placeholder="Teléfono" maxlength="14">
+
+                      <input type="text" class="form-control mb-3" formControlName="razonSocial" placeholder="Razón Social">
+
+                      <input type="text" class="form-control mb-3" formControlName="rfc" placeholder="RFC" maxlength="13">
+
+                      <select class="form-control mb-3" formControlName="regimenFiscal">
+                        <option [ngValue]="null" selected disabled>Seleccione el régimen fiscal</option>
+                        <option *ngFor="let tipoPersona of tiposPersona" [value]="tipoPersona.idTipoPersona">{{tipoPersona.nombre}}</option>
+                      </select>
+
+                      <input type="text" class="form-control mb-3" formControlName="domicilioFiscal" placeholder="Domicilio Fiscal">
+
+                      <label class="text-left">Responsable de Contenido Nacional</label>
+                      <input type="text" class="form-control mb-3" formControlName="responsableCNNombre" placeholder="Nombre(s)">
+
+                      <input type="text" class="form-control mb-3" formControlName="responsableCNAPaterno" placeholder="Apellido Paterno">
+
+                      <input type="text" class="form-control mb-3" formControlName="responsableCNAMaterno" placeholder="Apellido Materno">
+
+                      <select class="form-control mb-3" formControlName="tipoActividad">
+                        <option [ngValue]="null" selected disabled>Seleccione el tipo de actividad</option>
+                        <option *ngFor="let actividad of tiposActividad" [value]="actividad.idTipoActividad">{{actividad.nombre}}</option>
+                      </select>
+
+                      <!---
+                      <input type="email" 
+                              class="form-control mb-3" 
+                              name="correo"
+                              #correoElectronico="ngModel"
+                              [(ngModel)]="usuario.correoElectronico"
+                              placeholder="Correo electrónico"
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                              autofocus
+                              required>
+                      <input type="tel"
+                              (keypress)="validaNumeros($event)"
+                              (keyup)="keyUpEvent(numeros)"
+                              #numeros 
+                              class="form-control mb-4"
+                              name="celular"
+                              #celular="ngModel"
+                              [(ngModel)]="usuario.celular"
+                              placeholder="Teléfono"
+                              maxlength="14"
+                              required>-->
+                      <div class="fg-actions d-flex justify-content-between ">
+                        <button type="submit" class="btn btn-submit">Enviar</button> 
+                        <a class="btn btn-cancel" [routerLink]="['/login']">Cancelar</a>
+                      </div>
+                    </form>
+                    <hr class="m-0">
+                    <div class="d-flex justify-content-around mt-2 mb-2">
+                      <img src="../../../assets/img/LOGOFINALSSF.png" alt="Logo de Smart Fiscal Solutions" width="55" height="23">
+                      <small>© 2018 Todos los derechos reservados</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+.btn-save{
+    background-color: #A0C334;
+    color: #FFFFFF;
+}
+
+.btn-save:hover{
+    background-color: #8FAD31;
+}
+
+.btn-cancel{
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+.btn-cancel:hover{
+    background-color: #4C4C4C;
+}
+
+.btn-upload-file {
+    border-color: #8FAD31;
+    color: #8FAD31 !important;
+    background-color: #FFFFFF;
+}
+  
+.btn-upload-file:hover {
+    background-color: #A0C334;
+    color: #FFFFFF !important;
+}
+
+.fa-spin {
+    color: #5D5D5D;
+}
+
+//Cambia el puntero "deshabilitado" cuando se pasa el mouse sobre un elemento deshabilitado
+input[disabled]{
+    cursor: not-allowed;
+}

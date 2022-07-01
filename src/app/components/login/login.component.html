@@ -1,0 +1,54 @@
+<section id="login">
+  <div class="transparencia">
+  <div class="container-fluid bg-transparent">
+    <div class="row full-height-vh m-0 bg-transparent">
+      <div class="col-12 d-flex align-items-center justify-content-center bg-transparent">
+        <div class="card bg-transparent animated fadeInLeft">
+          <div class="card-content bg-transparent">
+            <div class="card-body login-img bg-transparent" >
+              <div class="row m-0" >
+                <div class="col-lg-6 d-lg-block d-none py-2 px-3 text-center align-middle">
+                  <img src="../../../assets/img/logo_tecnikal.png" alt="" class="img-fluid mt-4" width="400"
+                    height="230">
+                </div>
+                <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
+                  <h4 class="card-title mb-4 text-center">Iniciar sesión</h4>
+                  <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+                    <input type="text" 
+                            class="form-control mb-3" 
+                            placeholder="Correo electrónico" 
+                            [(ngModel)]="correoElectronico" 
+                            name="correo"
+                            autofocus
+                            required>
+                    <input type="password" 
+                            class="form-control mb-3" 
+                            placeholder="Contraseña" 
+                            [(ngModel)]="contrasenia"
+                            name="contrasenia"
+                            required>
+                    <div class="fg-actions d-flex justify-content-between mt-4">
+                      <button class="btn btn-sign-in" type="submit">Ingresar</button> 
+                      <a [routerLink]="['/registro']" class="btn btn-register">Registrarme</a>               
+                    </div>
+                    <div class="d-flex flex-row-reverse mt-1 mb-2 ">
+                      <div class="forgot-password-option" >
+                        <a [routerLink]="['/pages/forgotpassword']" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+                      </div>
+                    </div>
+                  </form>
+                  <hr class="m-0" />
+                  <div class="d-flex justify-content-around mt-2 mb-2">
+                    <img src="../../../assets/img/LOGOFINALSSF.png" alt="Logo de Smart Fiscal Solutions" width="55" height="23">
+                    <small>© 2018 Todos los derechos reservados</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>

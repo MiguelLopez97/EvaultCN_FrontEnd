@@ -1,0 +1,123 @@
+/*Estilos para el scrollbar (barra de desplazamiento)*/
+body::-webkit-scrollbar {
+	width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #5D5D5D;
+    border-radius: 10px;
+    border-right: 2px solid #5D5D5D;
+}
+/*End Estilos para el scrollbar (barra de desplazamiento)*/
+
+/*Estilos para las tarjetas contenedoras de cada módulo (Dashboard, Datos Generales, Facturas, Add Factura, Generar Carta, Reportes)*/
+.card-container {
+    box-shadow: 0px 5px 5px 5px #888888;
+    background-color: #F7F7F7;
+}
+
+.card-container .card-header i {
+    color: #E5D429;
+}
+/*End Estilos para las tarjetas contenedoras de cada módulo (Dashboard, Datos Generales, Facturas, Add Factura, Generar Carta, Reportes)*/
+
+/*Estilos para la vista de la carga de facturas (components/add-factura)*/
+.afu-upload-btn{
+    background-color: #A0C334 !important;
+    color: #FFFFFF !important;
+    border-color: #A0C334 !important;
+    opacity: 1 !important;
+}
+
+.afu-select-btn{
+    background-color: #5D5D5D !important;
+    color: #FFFFFF !important;
+    border-color: #5D5D5D !important;
+    opacity: 1 !important;
+}
+
+.afu-upload-btn:hover{
+    background-color:  #8FAD31 !important; 
+}
+
+.afu-select-btn:hover{
+    background-color: #4C4C4C !important; 
+}
+
+.afu-dragndrop-box {
+    width: 100% !important;
+    padding-bottom: 150px;
+}
+
+.afu-valid-file {
+    color: #5D5D5D !important;
+}
+
+.afu-valid-file p span{
+    color: #A0C334 !important;
+}
+
+.afu-constraints-info {
+    font-style: normal !important;
+}
+
+@media (max-width: 576px) {
+    .afu-dragndrop-box {
+      display: none;
+    }
+}
+
+/*@media (max-width: 375px) {
+    .afu-dragndrop-box {
+      width: 100% !important;
+    }
+}*/
+/*End Estilos para la vista de la carga de facturas*/
+
+
+/*Estilos de los tabs de Datos Generales (Usuario, Empresa, Buzon)*/
+ngb-tabset ul.nav-tabs li a.nav-link.active {
+    color: #A0C334;
+    font-size: 16px;
+}
+  
+ngb-tabset ul.nav-tabs li a.nav-link {
+    color: #5D5D5D;
+    font-size: 16px;
+}
+
+ngb-tabset ul.nav-tabs li i {
+    color: #E5D429;
+}
+
+/*ngb-tabset ul.nav-tabs li i.fa-user, li i.fa-envelope-open-text, li i.fa-building {
+    color: #E5D429;
+}*/
+/*End Estilos de los tabs de Datos Generales*/
+
+
+/*Estilo para el icono Info de SweetAlert2*/
+.swal2-icon.swal2-info {
+    border-color: #A0C334 !important;
+    color: #A0C334 !important;
+}
+
+
+/*Estilo para el loading de SweetAlert2*/
+.swal2-styled.swal2-confirm  {
+    border-left-color: #5D5D5D !important;
+    border-right-color: #5D5D5D !important;
+}
+
+
+/*Estilo para la paginación de las tablas*/
+.table-pagination .ngx-pagination .current {
+    background-color: #5D5D5D !important;
+}
+
+/*Datatable Header*/
+.datatable-header-cell
+{
+   display: flex !important;
+   align-items: center !important;
+}

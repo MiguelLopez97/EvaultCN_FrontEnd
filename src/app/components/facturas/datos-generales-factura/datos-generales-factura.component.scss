@@ -1,0 +1,66 @@
+.card-detalle-factura{  
+    box-shadow: 0px 5px 5px 5px #888888;
+}
+
+//Botón Regresar
+.btn-back {
+    border-color: #5D5D5D;
+    color: #5D5D5D;
+    background-color: #FFFFFF;
+}
+  
+.btn-back:hover {
+    background-color: #5D5D5D;
+    color: white;
+}
+//End Botón Regresar
+
+//Estilos para el modal de Solicitar consultoría a Smart Fiscal
+.btn-get-consultoria {
+    border-color: #8FAD31;
+    color: #8FAD31 !important;
+    background-color: #FFFFFF;
+}
+
+.btn-get-consultoria:hover {
+    background-color: #A0C334;
+    color: #FFFFFF !important;
+}
+
+.btn-save-solicitud{
+    background-color: #A0C334;
+    color: #FFFFFF;
+    width: 47%;
+}
+
+.btn-save-solicitud:hover{
+    background-color: #8FAD31;
+}
+
+.btn-cancel-solicitud{
+    background-color: #5D5D5D;
+    color: #FFFFFF !important;
+    width: 47%;
+}
+
+.btn-cancel-solicitud:hover{
+    background-color: #4C4C4C;
+}
+//End Estilos para el modal de Solicitar consultoría a Smart Fiscal
+
+
+//Estilos para los Tabs (Datos Generales, Partidas, Documentos Relacionados)
+.nav-link i {
+    color: #E5D429;
+}
+
+.nav-link {
+    color: #5D5D5D;
+    font-size: 16px;
+}
+
+.nav-link.active {
+    color: #A0C334;
+    font-size: 16px;
+}
+//End Estilos para los Tabs (Datos Generales, Partidas, Documentos Relacionados)

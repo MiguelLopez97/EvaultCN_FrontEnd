@@ -1,0 +1,64 @@
+.btn-save{
+    background-color: #A0C334;
+    color: #FFFFFF !important;
+}
+
+.btn-save:hover{
+    background-color: #8FAD31;
+}
+
+.btn-cancel{
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+.btn-cancel:hover{
+    background-color: #4C4C4C;
+}
+
+.fa-spin {
+    color: #5D5D5D;
+}
+
+.alert-success {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+}
+
+.alert-warning {
+    color: #856404 !important;
+    background-color: #fff3cd !important;
+    border-color: #ffeeba !important;
+}
+
+//Estilos para la sección de'Seleccione las partidas'
+.card-partidas{
+    box-shadow: 0px 1px 5px 1px #888888;
+}
+
+//Estilos que le dan una apariencia color gris a los labels donde se muestra el nombre de la partida
+.label-disabled { 
+    background-color: #ECEFF1;
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+    padding: 0.375rem 0.75rem;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    color: #495057;
+    cursor: pointer;
+
+    //Estilos que heredan de Form Label (los deshabilité)
+    font-size: inherit;
+    text-transform: unset;
+    letter-spacing: normal;
+    font-weight: unset;
+}
+
+//Cambia el puntero "deshabilitado" cuando se pasa el mouse sobre un elemento deshabilitado
+button[disabled]{
+    cursor: not-allowed;
+}

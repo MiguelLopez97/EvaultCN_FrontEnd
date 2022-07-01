@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h4 class="modal-title mb-0">Agregar nuevo proveedor</h4>
+  <a class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </a>
+</div>
+<form [formGroup]="proveedorForm" (ngSubmit)="saveProveedor()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group">
+          <label>Razón social</label>
+          <input type="text" class="form-control text-uppercase" formControlName="razonSocial" [class.is-invalid]="razonSocialNoValido">
+          <small *ngIf="razonSocialNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>RFC</label>
+          <input type="text" class="form-control text-uppercase" maxlength="13" formControlName="rfc" [class.is-invalid]="rfcNoValido">
+          <small *ngIf="rfcNoValido" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>              
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer mb-2">
+    <button type="submit" class="btn btn-save mr-1">Guardar</button>
+    <button type="button" class="btn btn-cancel" (click)="activeModal.close('Close click')">Cancelar</button>
+  </div>
+</form>

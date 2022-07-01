@@ -1,0 +1,17 @@
+.fa-spin {
+  color: #5D5D5D;
+}
+
+.btn-download{
+  background-color: #A0C334;
+  color: #FFFFFF !important;
+}
+
+.btn-download:hover{
+  background-color: #8FAD31;
+}
+
+//Cambia el puntero "deshabilitado" cuando se pasa el mouse sobre un elemento deshabilitado
+button[disabled]{
+  cursor: not-allowed;
+}

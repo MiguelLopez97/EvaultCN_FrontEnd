@@ -1,0 +1,288 @@
+<div class="alert text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<form (ngSubmit)="saveDetallePartida(detalleCFDIForm)" #detalleCFDIForm="ngForm" *ngIf="!loading">
+  <div class="form-body">
+    <div class="row">      
+      <div class="col-12 col-md-5 col-lg-5">
+        <div class="form-group">
+          <label>Número de identificación</label>
+          <input type="text" class="form-control" name="noIdentificacion" [(ngModel)]="detallePartida.noIdentificacion" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-7 col-lg-7">
+        <div class="form-group">
+          <label>Partida</label>
+          <input type="text" class="form-control" name="partida" [(ngModel)]="detallePartida.partida" disabled>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Clave Unidad SAT</label>
+          <input type="text" class="form-control" name="claveUnidadSAT" [(ngModel)]="detallePartida.claveUnidadSAT" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Clave producto SAT</label>
+          <input type="text" class="form-control" name="claveProductoSAT" [(ngModel)]="detallePartida.claveProductoSAT" disabled>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">      
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Valor unitario</label>
+          <input type="text" class="form-control" value="{{detallePartida.valorUnitario | currency:'MXN'}}" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Valor facturado</label>
+          <input type="text" class="form-control" value="Cargando..." disabled *ngIf="moneda == null">
+          <input type="text" class="form-control" value="{{detallePartida.valorFacturado | currency:'USD '}}" *ngIf="moneda == 'USD'" disabled>
+          <input type="text" class="form-control" value="{{detallePartida.valorFacturado | currency:'MXN'}}" *ngIf="moneda == 'MXN'" disabled>
+          <small *ngIf="moneda == 'USD'">Conversión a pesos mexicanos: {{detallePartida.valorFacturado * tipoDeCambio | currency:'MXN'}}</small>
+        </div>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="form-group">
+          <label>Costo de compra (Para fines de cálculo)</label>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="text" class="form-control" name="costoCompra" value="{{detallePartida.costoDeCompra | currency:'MXN'}}"disabled>
+            <div class="input-group-append">
+              <button class="btn btn-save" type="button" (click)="openModalCostoCompra(content)">Ver detalles</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---Modal "Agregar Costos de compra"-->
+    <ng-template let-c="close" let-d="dismiss" class="animated fadeInLeft">
+      <h4>Modal para subir costo de compra</h4>
+    </ng-template>
+    <!---End Modal "Agregar Costos de compra"-->
+
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>Tipo Contenido</label>
+          <select class="form-control"
+                  #contenido="ngModel"
+                  name="tipoContenido" 
+                  [(ngModel)]="detallePartida.idTipoContenido"
+                  [class.is-invalid]="contenido.invalid && contenido.touched"
+                  required>
+            <!---<option [ngValue]="undefined" selected disabled>Seleccione una opción</option>--->
+            <option *ngFor="let tipo of tipoContenido" [value]="tipo.idTipoContenido">{{tipo.tipoContenido}}</option>
+          </select>
+          <small *ngIf="contenido.invalid && contenido.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>Actividad concepto</label>
+          <select class="form-control" 
+                  #actividad="ngModel"
+                  name="actividadConcepto" 
+                  [(ngModel)]="detallePartida.idActividad" 
+                  [class.is-invalid]="actividad.invalid && actividad.touched"
+                  required>
+            <!---<option [ngValue]="undefined" selected disabled>Seleccione una opción</option>--->
+            <option *ngFor="let actividad of actividadConcepto" [value]="actividad.idActividadConcepto">{{actividad.actividad}}</option>
+          </select>
+          <small *ngIf="actividad.invalid && actividad.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Criterio*</label>
+          <select class="form-control" 
+                  #criterio="ngModel"
+                  name="tipoCriterio" 
+                  [(ngModel)]="detallePartida.idTipoCriterio"
+                  [class.is-invalid]="criterio.invalid && criterio.touched"
+                  required>
+            <option *ngFor="let criterio of criterios" [value]="criterio.idTipoCriterio">{{criterio.criterio}}</option>
+          </select>
+          <small *ngIf="criterio.invalid && criterio.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Tipo de material</label>
+          <select class="form-control" 
+                  #tipoMaterial="ngModel"
+                  name="tipoMaterial" 
+                  [(ngModel)]="detallePartida.idTipoMaterial"
+                  [class.is-invalid]="tipoMaterial.invalid && tipoMaterial.touched"
+                  [disabled]="detallePartida.idActividad != 2"
+                  required>
+            <option *ngFor="let material of tipoMateriales" [value]="material.idTipoMaterial">{{material.tipoMaterial}}</option>
+          </select>
+          <small *ngIf="tipoMaterial.invalid && tipoMaterial.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- <div class="col-12 col-md-5">
+        <div class="form-group">
+          <label>% Contenido nacional</label>
+          <input type="text" class="form-control" 
+                  name="porcentajeCN" 
+                  [(ngModel)]="detallePartida.porcentajeCN" 
+                  maxlength="5"
+                  #inputPorcentajeCN
+                  [class.is-invalid]="detallePartida.porcentajeCN > 1"
+                  (keypress)="validaNumeros($event)">
+          <small *ngIf="detallePartida.porcentajeCN > 1" class="form-text text-danger"><i>El porcentaje de CN debe ser entre 0 y 1</i></small>
+        </div>
+      </div> -->
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fracción arancelaria</label>
+          <input type="text" 
+                  class="form-control" 
+                  name="fraccion" 
+                  [(ngModel)]="detallePartida.fraccionArancelaria"
+                  [disabled]="detallePartida.idTipoContenido == 1">
+        </div>
+      </div>      
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-5">
+        <!--Mandamos como parámetro '1' para indicar que el tipo de archivo es Carta de Contenido Nacional-->
+        <button type="button" class="btn btn-upload-file mr-2" (click)="openModalUploadDocRelacionado(uploadDocRelacionado, 1)">
+          <i class="fas fa-file-upload mr-1"></i>Subir carta de Contenido Nacional
+        </button>
+
+        <!---<a href="" class="btn btn-secondary" placement="top" ngbTooltip="Ver archivo cargado" container="body">
+          <i class="fas fa-file-alt"></i>
+        </a>-->
+      </div>
+      <div class="col-12 col-md-7">
+        <!--Mandamos como parámetro '2' para indicar que el tipo de archivo es Carta de Arancel-->
+        <button type="button" class="btn btn-upload-file mr-2" (click)="openModalUploadDocRelacionado(uploadDocRelacionado, 2)">
+          <i class="fas fa-file-upload mr-1"></i>Subir carta de arancel (en caso de que aplique)
+        </button>
+
+        <!---<a href="" class="btn btn-secondary" placement="top" ngbTooltip="Ver archivo cargado" container="body">
+          <i class="fas fa-file-alt"></i>
+        </a>-->
+      </div>
+    </div>
+  
+    <!---Modal "Cargar Documento Relacionado"-->
+    <ng-template #uploadDocRelacionado let-c="close" let-d="dismiss" class="animated fadeInLeft">
+      <app-upload-doc-relacionado></app-upload-doc-relacionado>
+    </ng-template>
+    <!---End Modal "Cargar Documento Relacionado"-->
+
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <div class="form-group">
+          <label>Proveedor de compra</label>
+          <input type="text" class="form-control" name="proveedor" [(ngModel)]="detallePartida.proveedor">
+        </div>
+      </div>
+    </div>    
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label>Buscar actividad en el catálogo de Secretaría de Economía</label>
+          <ng-autocomplete
+          [data]="allCodigoSE"
+          placeHolder="Filtrar por nombre de actividad"
+          [searchKeyword]="keyword"
+          (selected)='selectEvent($event)'
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate"
+          notFoundText="No se encontraron resultados"
+          ></ng-autocomplete>
+
+          <ng-template #itemTemplate let-item>
+            <a [innerHTML]="item.codigoActividad"></a>
+          </ng-template>
+
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">    
+      <div class="col-6 col-md-2 col-lg-2">
+        <div class="form-group">
+          <label>Código SE</label>
+          <input type="text" class="form-control" value="{{detallePartida.codigoSE}}" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-10 col-lg-10">
+        <div class="form-group">
+          <label>Actividad</label>
+          <input type="text" class="form-control" value="{{detallePartida.actividad}}" disabled>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <label>Grupo</label>
+          <input type="text" class="form-control" value="{{detallePartida.grupo}}" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-10">
+        <div class="form-group">
+          <label>Nombre del grupo</label>
+          <input type="text" class="form-control" value="{{detallePartida.nombreGrupo}}" disabled>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Justificación</label>
+          <textarea class="form-control" rows="3" #justificacionCN="ngModel" name="justificacion" [(ngModel)]="detallePartida.justificacion" required></textarea>
+          <small *ngIf="justificacionCN.invalid && justificacionCN.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+  </div>  
+ 
+
+  <div class="form-actions">
+    <div class="text-right">                
+      <button type="button" class="btn mr-1 btn-cancel" (click)="cancelarFormulario(detalleCFDIForm)">Cancelar </button>                        
+      <button type="submit" class="btn btn-save">Guardar </button>                            
+    </div>
+  </div>
+</form>

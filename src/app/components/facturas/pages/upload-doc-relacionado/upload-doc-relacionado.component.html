@@ -1,0 +1,60 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title mb-0 text-center">Cargar {{nameTipoArchivo}}</h4>
+  </div>
+  <div class="card-content">
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <div appNgDropFiles [ngClass]="{'file-over': estaSobreElemento}" [archivos]="archivoSeleccionado" (mouseSobre)="estaSobreElemento = $event" class="well drop-zone d-none d-md-block">
+              <p>Arrastra tu {{nameTipoArchivo}} aquí</p>
+              <i class="far fa-file-pdf mb-2"></i>
+            </div>
+
+            <p class="d-none d-md-block">o</p>
+
+            <a class="btn btn-secondary" (click)="fileInput.click()">
+              <span>Selecciona un archivo</span>
+              <input class="form-control" #fileInput type="file" accept=".pdf" (change)="onChangeFile($event)" style="display:none;">
+            </a>
+          </div>    
+        </div>
+  
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <table class="table">
+              <thead class="bg-table-files">
+                <tr>
+                  <td>#</td>
+                  <td>Nombre archivo</td>
+                  <td>Tamaño</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let archivo of archivoSeleccionado; let i = index">
+                  <td>{{i+1}}</td>
+                  <td [ngClass]="{'text-green': archivo.progreso >= 100}">{{archivo.nombreArchivo}}</td>
+                  <td *ngIf="archivo.archivo.size <= 1000000">{{ archivo.archivo.size / 1024 | number: '.2-2' }} KB</td>
+                  <td *ngIf="archivo.archivo.size >= 1000000">{{ archivo.archivo.size / 1024/1024 | number: '.2-2' }} MB</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-end mr-0">
+          <button type="button" class="btn mr-1 btn-cancel" (click)="activeModal.dismiss('Cross click')">Cancelar</button>
+          <button type="button" class="btn btn-upload" (click)="saveDocumentoRelacionado()" [disabled]="archivoSeleccionado.length == 0">Guardar</button>
+        </div>        
+    
+      </div>
+    </div>
+  </div>
+
+  
+
+
+</div>

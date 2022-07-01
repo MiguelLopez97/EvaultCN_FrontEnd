@@ -1,0 +1,60 @@
+.card-kpi{
+    box-shadow: 0px 1px 5px 1px #888888;
+}
+
+.fa-sync-alt {
+    color: #5D5D5D !important;
+}
+
+/*Responsive para las Cards donde se muestra la cantidad de 'Cartas emitidas',
+'CFDIs por revisar', 'CFDIs revisados', 'CFDIs totales' y 'Proveedores'*/
+@media (max-width: 2600px) {
+    .columna {
+      width: 17% !important;
+      margin-left: 1.5%;
+      margin-right: 1.5%;
+    }
+}
+
+@media (max-width: 1229px) {
+    .titulo {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1199px) {
+    .columna {
+      width: 29.33333333% !important;
+      margin-left: 2%;
+      margin-right: 2%;
+    }
+
+    .titulo {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .columna {
+      width: 46% !important;
+      margin-left: 2%;
+      margin-right: 2%;
+    }
+
+    .titulo {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .columna {
+      width: 90% !important;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    .titulo {
+        font-size: 15px;
+    }
+}
+//End Responsive para las Cards

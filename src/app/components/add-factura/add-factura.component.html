@@ -1,0 +1,44 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="card card-container">
+      <div class="card-header">
+        <h4 class="card-title mb-0"><i class="fas fa-upload"></i> Agregar Factura</h4>
+      </div>
+      <hr class="mb-0">
+      <div class="card-content">
+        <div class="card-body text-center">            
+          <!---<h4 class="card-title text-muted mb-3">Seleccionar archivos para subir</h4>--->
+
+          <div class="row mb-1">
+            <div class="col-md-12">
+              <form>
+                <label>Seleccione el tipo de factura a subir</label><br>
+              </form>   
+              <input type="radio" id="venta" name="facturaVenta" value="facturaVenta" [(ngModel)]="tipoFactura">
+              <label for="venta" class="ml-1">Venta</label>
+              <input type="radio" id="compra" class="ml-4" name="facturaCompra" value="facturaCompra" [(ngModel)]="tipoFactura">
+              <label for="compra" class="ml-1">Compra</label>                                 
+            </div>
+          </div>
+
+          <div *ngIf="tipoFactura == 'facturaVenta'">
+            <angular-file-uploader
+              [config]="afuConfig"
+              (ApiResponse)="facturaVentaUpload($event)"
+            >
+            </angular-file-uploader>
+          </div>
+
+          <div *ngIf="tipoFactura == 'facturaCompra'">
+            <angular-file-uploader
+              [config]="afuConfig2"
+              (ApiResponse)="facturaCompraUpload($event)"
+            >
+            </angular-file-uploader>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

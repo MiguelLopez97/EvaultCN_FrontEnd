@@ -1,0 +1,45 @@
+h5 {
+    font-size: 2.4rem;
+}
+
+//Reduce el tamaño de los iconos de los resultados del cálculo de Contenido Nacional y los mantiene centrado
+.card-img-top {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fa-spin {
+    color: #5D5D5D;
+}
+
+.btn-view{
+    background-color: #A0C334;
+    color: #FFFFFF;
+}
+
+.btn-view:hover{
+    background-color: #8FAD31;
+}
+
+.bg-head-gray {
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+.modal-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.btn-cancel {
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+.btn-cancel:hover {
+    background-color: #4C4C4C;
+}

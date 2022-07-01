@@ -1,0 +1,173 @@
+<div class="card mb-0" *ngIf="!loading">
+  <div class="d-flex justify-content-end mr-3">
+    <a class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>  
+  <div class="card-header pt-0">    
+    <h4 class="card-title mb-0 text-center">Costos de compra</h4>    
+  </div>
+  <div class="card-content">
+    <div class="card-body">
+      <div class="container">
+        <form [formGroup]="costoCompraForm" (ngSubmit)="updateCFDIPartida()">
+
+          <div class="row">
+            <div class="col-md-5">
+              <h6 class="font-weight-bold"><i class="fas fa-truck"></i> DATOS DEL PROVEEDOR DEL SERVICIO</h6>
+              <dl class="ml-3">
+                <dt>RFC</dt>
+                <dd>{{factura.rfcProveedor}}</dd>
+             
+                <dt>Nombre</dt>
+                <dd>{{factura.razonSocialProveedor}}</dd>
+              </dl>
+            </div>
+            <div class="col-md-7">
+              <h6 class="font-weight-bold"><i class="fas fa-file-alt"></i> DATOS GENERALES DE LA ASIGNACIÓN, CONTRATO O PERMISO</h6>
+              <dl class="ml-3">
+                <dt>No. de asignación, contrato o permiso</dt>
+                <dd *ngIf="factura.noAsignacion != ''">{{factura.noAsignacion}}</dd>
+                <dd class="font-italic text-muted" *ngIf="factura.noAsignacion == ''">Dato no asignado</dd>
+             
+                <dt>Asignatario, Contratista o Permisionario que provee</dt>
+                <dd>{{factura.razonSocialReceptor}}</dd>
+              </dl>
+            </div>
+          </div>
+
+          <h6 class="font-weight-bold"><i class="fas fa-cog"></i> DATOS DEL SERVICIO</h6>
+          <div class="row mb-3">
+            <div class="col-md-9 text-right">
+              <label>(VSi) Valor factura del servicio en pesos</label>
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" value="{{factura.vmj | currency:'MXN'}}" disabled>
+            </div>
+          </div>
+          
+          <div class="row d-flex justify-content-end mr-0">
+            <button type="button" class="btn btn-add" (click)="openModalAddCostoCompra(content, null)"><i class="fas fa-plus"></i> Agregar conceptos</button>
+          </div>
+  
+          <!-- <table class="table table-sm table-hover table-responsive-md text-center">
+            <thead>
+              <tr>
+                <th>Material o Servicio</th>
+                <th>Descripción</th>
+                <th>Proveedor</th>
+                <th>RFC del Proveedor</th>
+                <th>Valor Factura del Material o Servicio (Pesos) <i>VMSj</i></th>
+                <th>Proporción de Contenido Nacional del Material o Servicio <i>PCNMSj</i></th>
+                <th>Contenido Nacional del Material o Servicio (Pesos) <i>PCNMSj x VMSj</i></th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let costo of detallesCostoCompra">
+                <td>{{costo.actividad}}</td>
+                <td>{{costo.descripcion}}</td>
+                <td>{{costo.proveedor}}</td>
+                <td>{{costo.rfcProveedor}}</td>
+                <td>{{costo.vmSj | currency:'MXN'}}</td>
+                <td>{{costo.pcnmSj}}</td>
+                <td>{{costo.pcnmSjxVMSj | currency:'MXN'}}</td>
+                <td>
+                  <a class="info p-0" (click)="openModalAddCostoCompra(content, costo.idCostoDetalle)" placement="top" ngbTooltip="Editar" container="body"> 
+                    <i class="fas fa-pen font-medium-3 mr-2"></i>
+                  </a>
+                  <a class="danger p-0" (click)="deleteCostoCompra(costo.idCostoDetalle)" placement="top" ngbTooltip="Eliminar" container="body">
+                    <i class="fas fa-times font-medium-3 mr-2"></i>
+                  </a>
+                </td>
+              </tr>
+
+              <tr class="fila-sin-hover">
+                <td colspan="4" class="text-right">
+                  <label class="style-letter">Total Valor Facturado</label>
+                </td>
+                <td class="text-center">        
+                  {{totalValorFactura | currency:'MXN'}}
+                </td>
+                <td colspan="3"></td>
+              </tr>
+            </tbody>
+          </table> -->
+
+          <ngx-datatable 
+            [rows]="detallesCostoCompra" 
+            class="bootstrap"  
+            [loadingIndicator]="loadingIndicator"
+            [columnMode]="'force'"
+            [headerHeight]="'auto'"
+            [rowHeight]="'auto'"
+            [footerHeight]="50"
+            [limit]="10"
+            [messages]="{emptyMessage: 'No se han encontrado coincidencias', totalMessage: 'total'}"
+            [scrollbarH]="false"
+            *ngIf="detallesCostoCompra.length > 0">
+
+            <ngx-datatable-column name="Material o Servicio" prop="actividad">
+              <ng-template let-actividad="value" ngx-datatable-cell-template>{{actividad}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Descripción" prop="descripcion">
+              <ng-template let-descripcion="value" ngx-datatable-cell-template>{{descripcion}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Proveedor" prop="proveedor">
+              <ng-template let-proveedor="value" ngx-datatable-cell-template>{{proveedor}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="RFC del Proveedor" prop="rfcProveedor">
+              <ng-template let-rfcProveedor="value" ngx-datatable-cell-template>{{rfcProveedor}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Valor Factura del Material o Servicio (Pesos) VMSj" prop="vmSj">
+              <ng-template let-vmSj="value" ngx-datatable-cell-template>{{vmSj | currency:'MXN'}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Proporción de Contenido Nacional del Material o Servicio PCNMSj" prop="pcnmSj">
+              <ng-template let-pcnmSj="value" ngx-datatable-cell-template>{{pcnmSj}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Contenido Nacional del Material o Servicio (Pesos) PCNMSj x VMSj" prop="pcnmSjxVMSj">
+              <ng-template let-pcnmSjxVMSj="value" ngx-datatable-cell-template>{{pcnmSjxVMSj | currency:'MXN'}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Opciones">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <button type="button" class="btn info p-0" (click)="openModalAddCostoCompra(contentModal, row.idCostoDetalle)" placement="top" ngbTooltip="Editar" container="body"> 
+                  <i class="fas fa-pen font-medium-3 mr-2"></i>
+                </button>
+                <a class="danger p-0" (click)="deleteCostoCompra(row.idCostoDetalle)" placement="top" ngbTooltip="Eliminar" container="body">
+                  <i class="fas fa-times font-medium-3 mr-2"></i>
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+
+          <div class="row d-flex justify-content-end mt-3 mr-0">
+            <p class="mr-5 d-flex align-items-center">
+              <label class="mb-0 mr-2">Total Valor Facturado (VMSj) = </label> {{totalValorFactura | currency:'MXN'}}
+            </p>
+            <button type="submit" class="btn mr-1 btn-save">Guardar</button>
+            <button type="button" class="btn btn-cancel" (click)="activeModal.close('Close click')">Cancelar</button>
+          </div>
+        </form>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---Div a mostrar cuando estén cargando los datos-->
+<div class="alert text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+<!---End Div a mostrar cuando estén cargando los datos-->

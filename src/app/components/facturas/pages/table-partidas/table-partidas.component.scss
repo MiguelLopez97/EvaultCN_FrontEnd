@@ -1,0 +1,20 @@
+//Para tener el mismo estilo de letra que los labels de un formulario
+.style-letter {
+    color: #75787d;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+//Quitar hover de la fila de la tabla
+tr.fila-sin-hover:hover{
+    background-color: transparent !important;
+}
+
+//Reducir texto 'SIN INPUESTO DEL VALOR AGREGADO'
+small { font-size: 64%;}
+
+.fa-spin {
+    color: #5D5D5D;
+}

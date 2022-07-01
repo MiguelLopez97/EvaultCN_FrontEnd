@@ -1,0 +1,150 @@
+<form>
+  <div class="form-body" >
+    <div class="row">
+      <div class="col-md-4">
+        <label>Seleccionar año</label>
+        <select class="form-control" name="anio" [(ngModel)]="anio" (change)="onChangeAnioPeriodos($event.target.value)">
+          <option *ngFor="let anio of anios" [value]="anio">
+            {{anio}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Mostrar gráficas por</label>
+        <select class="form-control" name="selectedPeriodo" [(ngModel)]="selectedPeriodo" (ngModelChange)="findByPeriodo($event)" required>
+          <option [ngValue]="undefined" selected>Seleccione una opción</option>
+          <option *ngFor="let periodo of periodos" [ngValue]="periodo">
+            {{periodo.nombre}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!---Div a mostrar cuando estén cargando los datos-->
+    <div class="alert text-center" *ngIf="loading">
+      <h4 class="alert-heading">Cargando</h4>
+      <p>
+        <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+      </p>
+      <p class="mb-0">
+        Espere por favor
+      </p>
+    </div>
+
+    <div [ngClass]="{'d-none': loading}">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-chart">
+            <div class="card-header text-center pb-0">
+              <h4 class="text-danger">Top 10 - Por Actividad</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+
+                <!--Oculta la gráfica cuando no haya datos en el arreglo-->
+                <div class="container-chart" [ngClass]="{'d-none': !loading && dataPorActividad.length == 0}">
+                  <canvas id="byActivity"></canvas>
+                </div>
+                
+                <!--Div a mostrar cuando no haya datos en el arreglo-->
+                <div class="alert text-center" *ngIf="!loading && dataPorActividad.length == 0">
+                  <p>
+                    <i class="fa fa-info-circle fa-5x"></i>
+                  </p>
+                  <h4 class="alert-heading">No hay datos para mostrar</h4>  
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-chart">
+            <div class="card-header text-center pb-0">
+              <h4 class="text-success">Top 10 - Por Proveedor</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+
+                <!--Oculta la gráfica cuando no haya datos en el arreglo-->
+                <div class="container-chart" [ngClass]="{'d-none': !loading && dataPorProveedor.length == 0}">
+                  <canvas id="byProveedor"></canvas>
+                </div>
+                
+                <!--Div a mostrar cuando no haya datos en el arreglo-->
+                <div class="alert text-center" *ngIf="!loading && dataPorProveedor.length == 0">
+                  <p>
+                    <i class="fa fa-info-circle fa-5x"></i>
+                  </p>
+                  <h4 class="alert-heading">No hay datos para mostrar</h4>  
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-chart">
+            <div class="card-header text-center pb-0">
+              <h4 class="text-primary">Top 10 - Por Proveedor Porcentaje</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+
+                <!--Oculta la gráfica cuando no haya datos en el arreglo-->
+                <div class="container-chart" [ngClass]="{'d-none': !loading && dataPorProveedorPorcentaje.length == 0}">
+                  <canvas id="byProveedorPorcentaje"></canvas>
+                </div>
+                
+                <!--Div a mostrar cuando no haya datos en el arreglo-->
+                <div class="alert text-center" *ngIf="!loading && dataPorProveedorPorcentaje.length == 0">
+                  <p>
+                    <i class="fa fa-info-circle fa-5x"></i>
+                  </p>
+                  <h4 class="alert-heading">No hay datos para mostrar</h4>  
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-chart">
+            <div class="card-header text-center pb-0">
+              <h4 class="text-info">Por Actividad Monto Porcentaje</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+
+                <!--Oculta la gráfica cuando no haya datos en el arreglo-->
+                <div class="container-chart" [ngClass]="{'d-none': !loading && dataPorActividadMontoPorcentaje.length == 0}">
+                  <canvas id="byActividadMontoPorcentaje"></canvas>
+                </div>
+                
+                <!--Div a mostrar cuando no haya datos en el arreglo-->
+                <div class="alert text-center" *ngIf="!loading && dataPorActividadMontoPorcentaje.length == 0">
+                  <p>
+                    <i class="fa fa-info-circle fa-5x"></i>
+                  </p>
+                  <h4 class="alert-heading">No hay datos para mostrar</h4>  
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</form>
+

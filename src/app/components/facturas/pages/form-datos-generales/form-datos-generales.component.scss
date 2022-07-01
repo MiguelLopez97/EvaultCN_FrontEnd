@@ -1,0 +1,44 @@
+.btn-save{
+    background-color: #A0C334;
+    color: #FFFFFF;
+}
+
+.btn-save:hover{
+    background-color: #8FAD31;
+}
+
+//Cambia el puntero "deshabilitado" cuando se pasa el mouse sobre un elemento deshabilitado
+input[disabled], button[disabled] {
+    cursor: not-allowed;
+}
+
+h5 {
+    font-size: 1.6rem;
+}
+
+//Reduce el tamaño de los iconos de los resultados del cálculo de Contenido Nacional y los mantiene centrado
+.card-img-top {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fa-spin {
+    color: #5D5D5D;
+}
+
+.alert-success {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+}
+
+.alert-info {
+    color: #0c5460 !important;
+    background-color: #d1ecf1 !important;
+    border-color: #bee5eb !important;
+}
+
+.form-check-label {
+    cursor: pointer;
+}

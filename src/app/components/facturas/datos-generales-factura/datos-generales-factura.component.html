@@ -1,0 +1,68 @@
+<section id="tabs">
+  <div class="row text-left">    
+    <!--Tabset Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card card-detalle-factura">        
+        <div class="card-content">
+          <div class="card-body">
+            <button type="button" class="btn btn-sm btn-back mr-2" [routerLink]="['/facturas']">
+              <i class="fas fa-arrow-left"></i> Regresar
+            </button>
+
+            <button type="button" class="btn btn-sm btn-get-consultoria" (click)="open(content)">
+              Solicitar consultoría a Smart Fiscal
+            </button>
+            
+            <!---Modal "Solicitar consultoría a Smart Fiscal"-->
+            <ng-template #content let-c="close" let-d="dismiss" class="animated fadeInLeft">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title mb-0 text-center">Solicitud de Consultoría</h4>
+                </div>
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="container">
+                      <form>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <textarea class="form-control" rows="6" placeholder="Añadir un mensaje (opcional)"></textarea>                              
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="fg-actions d-flex justify-content-between mt-1 mb-n2">
+                          <button type="submit" class="btn btn-save-solicitud" (click)="sendSolicitudConsultoria()">Guardar</button> 
+                          <button type="button" class="btn btn-cancel-solicitud" aria-label="Close" (click)="d('Cross click')">Cancelar</button> 
+                        </div>    
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <!---End Modal "Solicitar consultoría a Smart Fiscal"-->
+            
+            <!---Tabsets (Datos generales, Partidas, Documentos relacionados y Cálculo de Contenido Nacional)-->
+            <ul class="nav nav-tabs nav-justified" role="tablist">              
+              <li class="nav-item" role="presentation" *ngFor="let route of routes">
+                <a class="nav-link" data-toggle="tab" [routerLink]="['/facturas', idCFDIDoc, route.url, idCFDIDoc]" [routerLinkActive]="['active']" role="tab" aria-selected="false">
+                  <i class="{{route.icon}}"></i> {{route.title}}
+                </a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <!--Aquí se cargan las vistas que se seleccionen en los Tabs-->
+              <router-outlet></router-outlet>
+            </div>
+            <!---End Tabsets (Datos generales, Partidas, Documentos relacionados y Cálculo de Contenido Nacional)-->
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Tabset Ends-->    
+  </div>
+</section>

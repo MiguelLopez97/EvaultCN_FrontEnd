@@ -1,0 +1,73 @@
+<form>
+  <div class="form-body">
+    <div class="row d-flex justify-content-end">
+      <div class="col-md-6">
+        <label>Filtrar</label>
+        <input type="text" class="form-control" #search id="search" [disabled]="loading">
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Mostrar reporte</label>
+          <select class="form-control" name="report" [(ngModel)]="reportNameSelected" (change)="onChangeReportName($event.target.value)">
+            <option *ngFor="let report of reportsName; let i = index" [value]="report.value" [selected]="i == 0">
+              {{report.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-end">
+      <div class="col-md-6">
+        <button type="button" class="btn btn-download" (click)="generateExcel()" [disabled]="loading">
+          Descargar reporte en formato Excel (.xlsx)
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+<!---Sólo se muestra en pantallas mayores a 1200px-->
+<div class="d-none d-xl-block">
+  <ngx-datatable
+    class="bootstrap" 
+    [rows]="rows" 
+    [columns]="columns" 
+    [loadingIndicator]="loadingIndicator"
+    [columnMode]="'force'" 
+    [headerHeight]="'auto'"
+    [rowHeight]="'auto'"
+    [footerHeight]="50"
+    [limit]="10"
+    [messages]="{emptyMessage: 'No hay datos para mostrar', totalMessage: 'total'}"
+    [scrollbarH]="false"
+    *ngIf="rows.length >= 0 && !loading">
+  </ngx-datatable>
+</div>
+
+<!---Sólo se muestra en dispositivos móviles, tablets y pantallas menores a 1200px-->
+<div class="d-xl-none">
+  <ngx-datatable
+    class="bootstrap" 
+    [rows]="rows" 
+    [columns]="columns" 
+    [loadingIndicator]="loadingIndicator"
+    [columnMode]="'force'" 
+    [headerHeight]="'auto'"
+    [rowHeight]="'auto'"
+    [footerHeight]="50"
+    [limit]="10"
+    [messages]="{emptyMessage: 'No hay datos para mostrar', totalMessage: 'total'}"
+    [scrollbarH]="true"
+    *ngIf="rows.length >= 0 && !loading">
+  </ngx-datatable>
+</div>
+
+<!---Div a mostrar cuando estén cargando los datos-->
+<div class="alert text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>

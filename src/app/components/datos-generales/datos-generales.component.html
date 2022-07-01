@@ -1,0 +1,45 @@
+<div class="row text-left">
+  <!--Tabset Starts-->
+  <div class="col-md-12 col-lg-12">
+    <div class="card card-container">
+      <div class="card-header">
+        <h4 class="card-title mb-0"><i class="fas fa-user"></i> Datos generales</h4>
+      </div>
+      <hr class="mb-0">
+      <div class="card-content">
+        <div class="card-body">
+          <ngb-tabset #tabSet="ngbTabset" class="nav-justified" ><!---(tabChange)="tabChange($event)"-->
+            
+            <ngb-tab id="tab-1">
+              <ng-template ngbTabTitle><i class="fas fa-user"></i> Usuario</ng-template>                
+              <ng-template ngbTabContent>
+                <!---Formulario Usuario-->
+                <app-form-usuario (desbloquear)="goToEmpresa(tabSet,event)"></app-form-usuario>
+              </ng-template>
+            </ngb-tab>
+            
+            <ngb-tab id="tab-2" [disabled]="disableEmpresa">
+              <ng-template ngbTabTitle><i class="fas fa-building"></i> Empresa</ng-template>
+              <ng-template ngbTabContent>
+                <!---Formulario Empresa-->
+                <app-form-empresa (desbloquear)="goToBuzon(tabSet,event)"></app-form-empresa>
+              </ng-template>
+            </ngb-tab>
+            
+            <!---
+            <ngb-tab id="tab-3" [disabled]="disableBuzon">
+              <ng-template ngbTabTitle><i class="fas fa-envelope-open-text"></i> Buzón</ng-template>
+              <ng-template ngbTabContent>
+                ---Formulario Buzón---
+                <app-form-buzon></app-form-buzon>
+              </ng-template>
+            </ngb-tab>
+            --->
+
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Tabset Ends-->    
+</div>

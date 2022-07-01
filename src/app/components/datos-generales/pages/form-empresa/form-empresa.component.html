@@ -1,0 +1,366 @@
+<div class="alert text-center" *ngIf="loading && idEmpresaDesencriptado > 0">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<form (ngSubmit)="guardarEmpresa(empresaForm, tabSet)" #empresaForm="ngForm" *ngIf="!loading || idEmpresaDesencriptado == 0">
+  <div class="form-body">
+    <h6 class="font-weight-bold text-uppercase">Datos del responsable de Contenido Nacional</h6>
+
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Nombre del responsable</label>
+          <input type="text" class="form-control" name="respCNNombre" [(ngModel)]="empresa.repCNNombre" placeholder="Nombre(s)">
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label class="d-none d-md-block">&nbsp;</label>
+          <input type="text" class="form-control" name="respCNAPaterno" [(ngModel)]="empresa.repCNAPaterno" placeholder="Apellido Paterno">
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label class="d-none d-md-block">&nbsp;</label>
+          <input type="text" class="form-control" name="respCNAMaterno" [(ngModel)]="empresa.repCNAMaterno" placeholder="Apellido Materno">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!---
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" class="form-control" placeholder="example@example.com">
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" 
+                  (keypress)="validaNumeros($event)"
+                  (keyup)="keyUpEvent(numeros)"
+                  #numeros
+                  name="telefonoRespCN"
+                  class="form-control"   
+                  maxlength="14"
+                  required>
+        </div>
+      </div>-->
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Tipo de Actividad</label>
+          <select class="form-control mb-3" name="tipoActividad" [(ngModel)]="empresa.idTipoActividad">
+            <option [ngValue]="undefined" selected disabled>Seleccione una opción</option>
+            <option *ngFor="let actividad of tiposActividad" [value]="actividad.idTipoActividad">{{actividad.tipoActividad}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <h6 class="font-weight-bold text-uppercase">Datos de la empresa</h6>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Razón Social</label>
+          <input type="text" 
+                  name="razonSocial"
+                  #razonSocial="ngModel"
+                  [(ngModel)]="empresa.razonSocial"
+                  class="form-control"
+                  [class.is-invalid]="razonSocial.invalid && razonSocial.touched"
+                  maxlength="150"
+                  [disabled]="empresa.idEmpresa > 0"
+                  required>
+          <small *ngIf="razonSocial.invalid && razonSocial.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>No. de Instrumento Público</label>
+          <input type="text" 
+                  name="noInsPublico"
+                  #noInsPublico="ngModel"
+                  [(ngModel)]="empresa.noInstrumentoPublico"
+                  class="form-control"
+                  [class.is-invalid]="noInsPublico.invalid && noInsPublico.touched"
+                  maxlength="20"
+                  required>
+          <small *ngIf="noInsPublico.invalid && noInsPublico.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label>Régimen Fiscal</label>
+          <select class="form-control" 
+                  name="idTipoPersona"
+                  #regimenFiscal="ngModel"
+                  [(ngModel)]="selectedTipoPersona"
+                  [(ngModel)]="empresa.idTipoPersona"
+                  [class.is-invalid]="regimenFiscal.invalid && regimenFiscal.touched"
+                  (change)="changeTipoPersona($event)"
+                  [disabled]="empresa.idEmpresa > 0"
+                  required>
+            <!---<option value="0" disabled>Seleccione una opción</option>--->
+            <option [ngValue]="undefined" selected disabled>Seleccione una opción</option>
+            <option [value]="1">Persona Física</option>
+            <option [value]="2">Persona Moral</option>
+          </select>
+          <small *ngIf="regimenFiscal.invalid && regimenFiscal.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <!---Input inicial de RFC (Se muestra deshabilitado hasta que el usuario seleccione el Regimen Fiscal)-->
+      <div class="col-12 col-md-6 col-lg-2" *ngIf="selectedTipoPersona == undefined"><!---*ngIf="selectedTipoPersona != 1 && selectedTipoPersona != 2"-->
+        <div class="form-group">
+          <label>RFC</label>
+          <input type="text" class="form-control" disabled>
+        </div>
+      </div>
+      <!--Se muestra este div si el Régimen Fiscal seleccionado fue 'Persona Física'--->
+      <div class="col-12 col-md-6 col-lg-2" *ngIf="selectedTipoPersona == 1">
+        <div class="form-group">
+          <label>RFC</label>
+          <input type="text" 
+                  (keypress)="validaLetrasYNumeros($event)"
+                  name="rfc" 
+                  #rfc="ngModel"
+                  [(ngModel)]="empresa.rfc"
+                  class="form-control text-uppercase"
+                  [class.is-invalid]="rfc.invalid && rfc.touched"
+                  [disabled]="empresa.idEmpresa > 0"
+                  maxlength="13"
+                  required>
+          <small *ngIf="rfc.invalid && rfc.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <!--Se muestra este div si el Régimen Fiscal seleccionado fue 'Persona Moral'--->
+      <div class="col-12 col-md-6 col-lg-2" *ngIf="selectedTipoPersona == 2">
+        <div class="form-group">
+          <label>RFC</label>
+          <input type="text"
+                  (keypress)="validaLetrasYNumeros($event)" 
+                  name="rfc" 
+                  #rfc="ngModel"
+                  [(ngModel)]="empresa.rfc"
+                  class="form-control text-uppercase"   
+                  [class.is-invalid]="rfc.invalid && rfc.touched"   
+                  [disabled]="empresa.idEmpresa > 0"                              
+                  maxlength="12"
+                  required>
+          <small *ngIf="rfc.invalid && rfc.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-7 col-md-4 col-lg-2">
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" 
+                  (keypress)="validaNumeros($event)"
+                  (keyup)="keyUpEvent(numeros)"
+                  #numeros
+                  name="telefono"   
+                  #telefono="ngModel"           
+                  [(ngModel)]="empresa.telefono"
+                  class="form-control"
+                  [class.is-invalid]="telefono.invalid && telefono.touched"    
+                  maxlength="14"
+                  required>
+          <small *ngIf="telefono.invalid && telefono.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-5 col-md-2 col-lg-1">
+        <div class="form-group">
+          <label>Ext.</label>
+          <input type="tel" 
+                  (keypress)="validaNumeros($event)"
+                  name="extension"
+                  #ext="ngModel"
+                  [(ngModel)]="empresa.ext"
+                  class="form-control"
+                  [class.is-invalid]="ext.invalid && ext.touched"  
+                  maxlength="4">
+          <small *ngIf="ext.invalid && ext.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label>Correo Institucional</label>
+          <input type="text" 
+                  name="email"
+                  #email="ngModel"
+                  [(ngModel)]="empresa.correoElectronico"
+                  class="form-control"
+                  placeholder="example@example.com"
+                  [class.is-invalid]="email.invalid && email.touched"  
+                  maxlength="50"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                  required>
+          <small *ngIf="email.invalid && email.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 col-sm-4">
+        <div class="form-group">
+          <label>Representante Legal</label>
+          <input type="text"                                     
+                  name="repLegalNombre"
+                  #nombre="ngModel"
+                  [(ngModel)]="empresa.repLegalNombre"
+                  class="form-control" 
+                  [class.is-invalid]="nombre.invalid && nombre.touched"  
+                  placeholder="Nombre(s)"
+                  maxlength="50"
+                  (keypress)="validaLetras($event)"
+                  required>
+            <small *ngIf="nombre.invalid && nombre.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="form-group">
+          <label class="d-none d-md-block">&nbsp;</label>
+          <input type="text" 
+                  name="repLegalAPaterno"
+                  #aPaterno="ngModel"
+                  [(ngModel)]="empresa.repLegalAPaterno"
+                  class="form-control" 
+                  [class.is-invalid]="aPaterno.invalid && aPaterno.touched"  
+                  placeholder="Apellido Paterno"
+                  maxlength="30"
+                  (keypress)="validaLetras($event)"
+                  required>
+          <small *ngIf="aPaterno.invalid && aPaterno.touched" class="form-text text-danger"><i>*Campo requerido</i></small>        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="form-group">
+          <label class="d-none d-md-block">&nbsp;</label>
+          <input type="text" 
+                  name="repLegalAMaterno"
+                  [(ngModel)]="empresa.repLegalAMaterno"
+                  class="form-control" 
+                  placeholder="Apellido Materno"
+                  maxlength="30"
+                  (keypress)="validaLetras($event)">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">                  
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Código Postal</label>
+          <div class="input-group">
+            <input type="tel" 
+                  class="form-control"
+                  [class.is-invalid]="empresa.codigoPostal == 0"
+                  name="codigoPostal"
+                  min="1" 
+                  maxlength="5" 
+                  [(ngModel)]="empresa.codigoPostal" 
+                  (keypress)="validaNumeros($event)"
+                  required>
+            <div class="input-group-append">
+              <button class="btn btn-raised btn-cancel" type="button" (click)="getColonias()" [disabled]="loadingColonias || empresa.codigoPostal == 0">
+                Buscar <i class="spinner fa fa-sync-alt" *ngIf="loadingColonias"></i>
+              </button>
+            </div>
+          </div>
+          <small *ngIf="empresa.codigoPostal == 0" class="form-text text-danger text-italic">*El código postal tiene que ser mayor a 0</small>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Colonia</label>
+          <div class="input-group">
+            <select class="form-control" 
+                    name="localidades"
+                    #localidad="ngModel"
+                    [class.is-invalid]="localidad.invalid && localidad.touched" 
+                    [disabled]="arrayLocalidades.length == 0 || loadingColonias" 
+                    [(ngModel)]="empresa.idCiudad"
+                    [(ngModel)]="empresa.idEntidadFederativa"
+                    (change)="changeLocalidad($event.target.value)"                              
+                    required>    
+              <option *ngFor="let localidad of arrayLocalidades" [value]="localidad.idCiudad">{{localidad.colonia}}</option>
+            </select>
+            <span class="input-group-text loading-colonias" *ngIf="loadingColonias">
+              <i class="spinner fa fa-sync-alt"></i>
+            </span>
+          </div>
+          <small *ngIf="localidad.invalid && localidad.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>      
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Municipio</label>
+          <input class="form-control" type="text" name="municipio" [(ngModel)]="empresa.municipio" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Estado</label>     
+          <input class="form-control" type="text" name="estado" [(ngModel)]="empresa.estado" disabled>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <div class="form-group">
+          <label>Dirección</label>
+          <input type="text" 
+                  name="direccion"
+                  #direccion="ngModel"
+                  [(ngModel)]="empresa.direccion"
+                  class="form-control"
+                  [class.is-invalid]="direccion.invalid && direccion.touched"
+                  maxlength="150"
+                  required>
+          <small *ngIf="direccion.invalid && direccion.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Logo</label>
+            <div class="row">
+              <div class="d-inline">
+                <input class="form-control border border-white ml-1" 
+                        #fileInput 
+                        type="file" 
+                        (change)="onFileInput($event)"
+                        accept=".png, .jpg, .jpeg" 
+                        name="logo">  
+              </div>
+              <div class="d-inline">
+                <button type="button" class="btn btn-save ml-2" [disabled]="!localImgSelected" (click)="uploadLogo()">Cargar archivo</button>
+              </div>                                
+            </div>
+            <small class="text-secondary">Tamaño máximo de archivo: 1MB (.jpg, .jpeg, .png)</small>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <img src="{{imgUri}}" class="logo-empresa img-thumbnail">
+      </div>
+    </div>
+    
+  </div>
+  <div class="form-actions">
+    <div class="text-right">                        
+      <button type="button" class="btn mr-1 btn-raised btn-cancel" (click)="cancelarFormulario(empresaForm)">Cancelar</button>
+      <button type="submit" class="btn btn-raised btn-save">Guardar</button>
+    </div>                      
+  </div>
+</form>

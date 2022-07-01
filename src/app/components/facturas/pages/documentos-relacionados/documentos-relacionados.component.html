@@ -1,0 +1,69 @@
+<div class="container" *ngIf="!loading">
+
+  <div class="row">
+    <div class="col-6 col-md-4 col-xl-3" *ngFor="let documento of documentosPartida">
+      <div class="card">
+        <!---<img src="assets/img/icono-pdf.png" class="card-img-top mx-auto img-pdf" (click)="openModal(content)">-->
+        <a href="{{documento.archivo}}" target="_blank" class="text-center">
+          <img src="assets/img/icono-pdf.png" class="card-img-top mx-auto img-pdf">
+        </a>
+        <div class="card-body text-center d-flex justify-content-around">
+          <span class="badge badge-primary" *ngIf="documento.tipoArchivo == 'Carta Contenido Nacional'">{{documento.tipoArchivo}}</span>
+          <span class="badge badge-secondary" *ngIf="documento.tipoArchivo == 'Carta Arancelaria'">{{documento.tipoArchivo}}</span>
+        </div>
+      </div>
+
+      <!---Modal para visualizar el archivo PDF-->
+      <!---<ng-template #content let-modal>
+        --Div a mostrar cuando estén cargando el archivo PDF--
+        <div class="alert text-center" *ngIf="loadingPDF">
+          <h4 class="alert-heading">Cargando</h4>
+          <p>
+            <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+          </p>
+          <p class="mb-0">
+            Espere por favor
+          </p>
+        </div>
+
+        <div class="modal-header" *ngIf="!loadingPDF">
+          <button type="button" class="close" (click)="modal.dismiss('Cross click')">
+            <span>&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <pdf-viewer 
+            [src]="documento.archivo" 
+            [render-text]="true" 
+            [show-borders]="true" 
+            [original-size]="false" pdf-viewer max-width display
+            [autoresize]="true"
+            (on-progress)="loadingFilePDF($event)"
+            style="display: block;">
+          </pdf-viewer>
+        </div>        
+      </ng-template>
+      End Modal para visualizar el archivo PDF-->
+    </div>
+  </div>
+</div>
+
+<!--Div a mostrar cuando no haya datos-->
+<div class="alert text-center" *ngIf="!loading && documentosPartida.length == 0">
+  <p>
+    <i class="fa fa-info-circle fa-5x"></i>
+  </p>
+  <h4 class="alert-heading">No hay documentos relacionados con esta factura</h4>  
+</div>
+
+<!--Div a mostrar cuando estén cargando los datos-->
+<div class="alert text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>

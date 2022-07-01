@@ -1,0 +1,71 @@
+<table class="table table-hover table-responsive-md text-center">
+  <thead>
+    <tr>
+      <th>No. que conforma el material</th>
+      <th>Descripción</th>
+      <!---<th>Proveedor</th>--->
+      <!---<th>RFC</th>--->
+      <th>Valor Factura</th>
+      <th>Porcentaje de Contenido Nacional</th>
+      <th>Contenido Nacional en pesos</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="fila-sin-hover" *ngIf="loading">
+      <td colspan="7">
+        <div class="alert text-center">
+          <h4 class="alert-heading">Cargando</h4>
+          <p>
+            <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+          </p>
+          <p class="mb-0">
+            Espere por favor
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let partida of partidas">
+      <td>
+        <a *ngIf="partida.noIdentificacion != ''" [routerLink]="['/facturas', idCFDI, 'partidas', idCFDI, 'detalle', partida.idCFDIDetalle, 'partida', idCFDI, partida.idCFDIDetalle]">{{partida.noIdentificacion}}</a>
+        <a *ngIf="partida.noIdentificacion == ''" [routerLink]="['/facturas', idCFDI, 'partidas', idCFDI, 'detalle', partida.idCFDIDetalle, 'partida', idCFDI, partida.idCFDIDetalle]">{{partida.idCFDI}}</a>
+      </td>
+      <td>{{partida.partida}}</td>
+      <!---<td>Pendiente</td>--->
+      <!---<td>Pendiente</td>--->
+      <td>{{partida.valorFacturado | currency:'MXN'}}</td>
+      <td>{{partida.porcentajeCN | number: '.3'}}</td>
+      <td>{{partida.valorFacturado * partida.porcentajeCN | currency:'MXN'}}</td><!---number: '.1-2'-->
+      <td>
+        <a class="info p-0" [routerLink]="['/facturas', idCFDI, 'partidas', idCFDI, 'detalle', partida.idCFDIDetalle, 'partida', idCFDI, partida.idCFDIDetalle]" placement="top" ngbTooltip="Ver detalle">
+          <i class="far fa-eye font-medium-3 mr-2"></i>
+        </a>
+      </td>
+    </tr>
+
+    <tr class="fila-sin-hover" *ngIf="!loading && partidas.length > 0">
+      <td colspan="2" class="text-right">
+        <label class="style-letter">Total Valor Facturado</label>
+      </td>
+      <td class="text-left">        
+        {{totalValorFactura | currency:'MXN'}} <br>
+        <small class="text-uppercase">Sin inpuesto del valor agregado</small>
+      </td>  
+      <td class="text-right">
+        <label class="style-letter">Total proporción de contenido</label>
+      </td>
+      <td>
+        {{totalProporcionContenido | currency:'MXN'}}
+      </td>
+      <td></td>
+      
+      <!---
+      <td>
+        <a class="success p-0" data-original-title="" title="Generar carta">
+          <i class="fas fa-print font-medium-3 mr-2"></i>
+        </a>
+      </td>
+      --->             
+    </tr>
+  </tbody>
+</table>

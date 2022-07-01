@@ -1,0 +1,43 @@
+/* Drop Zone */
+.drop-zone { 
+	border: dotted 3px lightgray; 
+	opacity: 0.5; 
+	color: #666; 
+	text-align: center 
+}
+
+.file-over { 
+	border: dotted 4px dodgerblue; 
+}
+
+//Cambia el puntero a "no permitido" cuando se pasa el mouse sobre un input deshabilitado
+button[disabled] {
+    cursor: not-allowed;
+}
+
+.bg-table-files {
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+i {
+    font-size: 120px;
+}
+
+.btn-upload{
+    background-color: #A0C334;
+    color: #FFFFFF;
+}
+
+.btn-upload:hover{
+    background-color: #8FAD31;
+}
+
+.btn-cancel{
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+}
+
+.btn-cancel:hover{
+    background-color: #4C4C4C;
+}

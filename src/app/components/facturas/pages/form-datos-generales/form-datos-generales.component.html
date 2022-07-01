@@ -1,0 +1,264 @@
+<div class="alert text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<form (ngSubmit)="onSubmit(datosGeneralesForm)" #datosGeneralesForm="ngForm" *ngIf="!loading">
+  <div class="form-body">
+    <!--Alert a mostrar cuando la moneda sea MXN-->
+    <div class="alert alert-success" role="alert" *ngIf="factura.moneda == 'MXN'">
+      <p class="mb-0">El tipo de moneda de esta factura es en pesos mexicanos 'MXN'</p>
+    </div>
+
+    <!--Alert a mostrar cuando la moneda sea USD-->
+    <div class="alert alert-info" role="alert" *ngIf="factura.moneda == 'USD'">
+      <p class="mb-0">El tipo de moneda de esta factura es en dólares estadounidenses 'USD'</p>
+    </div>
+
+    <!--Alert para mostrar nota informativa acerca del tipo de cambio del dólar-->
+    <div class="alert alert-info" role="alert" *ngIf="factura.moneda == 'USD'">
+      <p class="mb-0">NOTA: El tipo de cambio de dólar que se refleja actualmente es basado en el día que se realizó la facturación. 
+        No obstante, puedes agregar el tipo de cambio actual para una conversión aproximada del monto de esta factura en pesos mexicanos.</p>
+    </div>
+
+    <div class="row d-flex justify-content-end" *ngIf="factura.moneda == 'USD'">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>
+            Tipo de cambio actual del dólar
+            <i class="fas fa-question-circle" style="cursor: pointer;" placement="top" ngbTooltip="El tipo de cambio se requiere para realizar la conversión del monto de la factura a pesos mexicanos" container="body"></i>
+          </label>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="text" class="form-control" name="tipoCambio" (keypress)="validaNumeros($event)" maxlength="6" [(ngModel)]="factura.tipoDeCambio">
+            <div class="input-group-append">
+              <span class="input-group-text">MXN</span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <h6 class="font-weight-bold">DATOS DEL PROVEEDOR DEL MATERIAL</h6>
+    <div class="row" >      
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>RFC*</label>
+          <input type="text" class="form-control" value="{{factura.rfcProveedor}}" *ngIf="factura" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Razón social*</label>
+          <input type="text" class="form-control" value="{{factura.razonSocialProveedor}}" *ngIf="factura" disabled>
+        </div>
+      </div>
+    </div>
+
+    <h6 class="font-weight-bold">SUMINISTRO DEL MATERIAL</h6>
+    <div class="row">      
+      <div class="col-12 col-md-7 col-lg-4">
+        <div class="form-group">
+          <label>No. de asignación/Contrato/Permiso</label>
+          <input type="text" 
+                  class="form-control" 
+                  #noAsignacion="ngModel" 
+                  name="numeroAsignacion" 
+                  [class.is-invalid]="noAsignacion.invalid && noAsignacion.touched" 
+                  [(ngModel)]="factura.noAsignacion" 
+                  required>
+          <small *ngIf="noAsignacion.invalid && noAsignacion.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-7 col-lg-3">
+        <div class="form-group">
+          <label>Orden de compra</label>
+          <input type="text" 
+                  class="form-control" 
+                  #ordenCompra="ngModel" 
+                  name="ordenCompra" 
+                  [class.is-invalid]="ordenCompra.invalid && ordenCompra.touched" 
+                  [(ngModel)]="factura.ordenCompra" 
+                  required>
+          <small *ngIf="ordenCompra.invalid && ordenCompra.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-7 col-lg-5">
+        <div class="form-group">
+          <label>Nombre de la empresa que suministra*</label>
+          <input type="text" class="form-control" value="{{factura.razonSocialReceptor}}" disabled>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+      <div class="col-12 col-md-4" *ngFor="let calculo of calculoCN; let i = index">
+        <div class="card">
+          <img src="../../../../../assets/img/icon_servicios.png" class="card-img-top" *ngIf="i == 0">
+          <img src="../../../../../assets/img/icon_material.png" class="card-img-top" *ngIf="i == 1">
+          <img src="../../../../../assets/img/icon_bienes.png" class="card-img-top" *ngIf="i == 2">
+          <div class="card-header text-center pb-0">
+            <span class="text-info">{{calculo.nombreFormula}}</span>
+            <h5 class="mt-1">{{calculo.resultado}}</h5>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>(VMj) Valor factura del material en pesos*</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group" *ngIf="factura.moneda == 'MXN'">
+          <div class="position-relative has-icon-left">
+            <input type="text" class="form-control" value="{{factura.vmj | currency:'MXN'}}" disabled>
+            <div class="form-control-position" style="top: 0; left: 5px;">
+              <span class="success">MXN</span>
+            </div>
+          </div>
+        </div>        
+
+        <div class="form-group" *ngIf="factura.moneda == 'USD'">
+          <div class="position-relative has-icon-left">
+            <input type="text" class="form-control" value="{{factura.vmj | currency:'MXN'}}" disabled>
+            <div class="form-control-position" style="top: 0; left: 5px;">
+              <span class="info">USD</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="factura.moneda == 'USD'">
+          <div class="position-relative has-icon-left">
+            <input type="text" class="form-control" value="{{factura.vmj * factura.tipoDeCambio | currency:'MXN'}}" readonly>
+            <div class="form-control-position" style="top: 0; left: 5px;">
+              <span class="success">MXN</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label [ngClass]="{'warning': factura.fraccionArancelaria > 0}">Fracción arancelaria en que se clasifica</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" 
+                class="form-control" 
+                name="fraccionArancelaria" 
+                [(ngModel)]="factura.fraccionArancelaria" 
+                [ngClass]="{'warning': factura.fraccionArancelaria > 0}"
+                disabled>
+      </div> 
+    </div>
+
+    <hr>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <label>La mano de obra es:</label>
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="manoObra" id="radio1" value="mexicana" [(ngModel)]="manoDeObra" (change)="onChangeSueldosHonorarios($event)">
+          <label class="form-check-label" for="radio1">Mexicana</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="manoObra" id="radio2" value="extranjera" [(ngModel)]="manoDeObra" (change)="onChangeSueldosHonorarios($event)">
+          <label class="form-check-label" for="radio2">Extranjera</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="manoObra" id="radio3" value="ambos" [(ngModel)]="manoDeObra" (change)="onChangeSueldosHonorarios($event)">
+          <label class="form-check-label" for="radio3">Ambos</label>
+        </div>
+      </div>      
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>(VNMOj) Sueldos u honorarios más prestaciones pagadas a los trabajadores
+          nacionales empleado para la producción del material*
+        </label>
+      </div>
+      <div class="col-md-6">
+        <!---Input para cuando la Mano de obra sea 'Mexicana'-->
+        <div class="input-group" *ngIf="manoDeObra == 'mexicana' || manoDeObra == 'extranjera'">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" 
+                  class="form-control" 
+                  name="VNMOj"
+                  #manoObraMexicana="ngModel"
+                  (keypress)="validaNumeros($event)" 
+                  maxlength="18" 
+                  [class.is-invalid]="manoObraMexicana.invalid && manoObraMexicana.touched"
+                  [(ngModel)]="vnmoj" 
+                  [(ngModel)]="vmoj"
+                  [disabled]="manoDeObra == 'extranjera'"
+                  required>
+          <small *ngIf="manoObraMexicana.invalid && manoObraMexicana.touched" class="form-text text-danger"><i>*Campo requerido</i></small>          
+        </div>
+
+        <!---Input para cuando la Mano de obra sea 'Ambos'-->
+        <div class="input-group" *ngIf="manoDeObra == 'ambos'">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" 
+                  class="form-control"
+                  #manoObraAmbos="ngModel"
+                  name="VNMOj" 
+                  (keypress)="validaNumeros($event)" 
+                  [class.is-invalid]="manoObraAmbos.invalid && manoObraAmbos.touched" 
+                  maxlength="18" 
+                  [(ngModel)]="vnmoj"
+                  required>
+          <small *ngIf="manoObraAmbos.invalid && manoObraAmbos.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+
+      </div> 
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>(VMOj) Sueldos u honorarios más prestaciones pagadas a los trabajadores
+          empleados para la producción del material*
+        </label>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" 
+                class="form-control" 
+                #vmojSueldos="ngModel"
+                name="VMOj" 
+                (keypress)="validaNumeros($event)" 
+                maxlength="18" 
+                [(ngModel)]="vmoj"
+                [disabled]="manoDeObra == 'extranjera' || manoDeObra == 'mexicana'">
+          <small *ngIf="vmojSueldos.invalid && vmojSueldos.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>                
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-actions">
+    <div class="text-right">
+      <button type="submit" class="btn btn-save">Guardar datos para cálculo</button>
+    </div>                      
+  </div>
+</form>

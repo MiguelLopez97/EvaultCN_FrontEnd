@@ -1,0 +1,60 @@
+.transparencia {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+#login {
+  background-image: url('../../../assets/img/sidebar-bg/evault.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  .login-img {
+    padding: 0;       
+  }
+
+  .btn-sign-in{
+    background-color: #A0C334 ;
+    color: #FFFFFF;
+    width: 48%;
+  }
+
+  .btn-sign-in:hover{
+    background-color: #8FAD31;
+  }
+
+  .btn-register{
+    background-color: #5D5D5D;
+    color: #FFFFFF;
+    width: 48%;
+  }
+
+  .btn-register:hover{
+    background-color: #4C4C4C;
+  }
+
+  .recover-pass {
+    button.btn.btn-primary {
+      color: #fff !important;
+    }
+  }
+
+  .forgot-password-option, .remember-me {
+    a.text-decoration-none,
+    .custom-control-label {
+      font-size: 14px;
+    }
+  }
+
+  a.text-decoration-none{
+    color: #A0C334 ;
+  }
+}
+
+//Responsive para el texto 'Todos los derechos reservados' (que se haga pequeño en dispositivos moviles)
+@media (max-width: 576px) {
+  small {
+    font-size: 47%;
+  }
+}

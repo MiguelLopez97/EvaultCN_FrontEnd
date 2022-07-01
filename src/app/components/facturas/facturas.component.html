@@ -1,0 +1,33 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="card card-container">
+      <div class="card-header">
+        <h4 class="card-title mb-0"><i class="far fa-file-alt icon-factura"></i> Facturas</h4>
+      </div>
+      <hr class="mb-0">
+      <div class="card-content">
+        <div class="card-body">
+          <ngb-tabset #tabSet="ngbTabset" class="nav-justified">
+
+            <ngb-tab id="tab-1">
+              <ng-template ngbTabTitle><i class="far fa-file-alt"></i> Facturas de venta</ng-template>                
+              <ng-template ngbTabContent>
+                <!---Tabla de Facturas de Venta--->
+                <app-table-facturas-venta></app-table-facturas-venta>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab id="tab-2">
+              <ng-template ngbTabTitle><i class="far fa-file-alt"></i> Facturas de compra</ng-template>
+              <ng-template ngbTabContent>
+                <!---Tabla de Facturas de Compra--->
+                <app-table-facturas-compra></app-table-facturas-compra>
+              </ng-template>
+            </ngb-tab>
+
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

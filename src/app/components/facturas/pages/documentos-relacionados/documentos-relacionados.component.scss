@@ -1,0 +1,15 @@
+.img-pdf {
+  width: 73px;
+  height: 90px;
+  cursor: pointer;
+}
+
+.fa-info-circle, .fa-spin {
+  color: #5D5D5D;
+}
+
+@media (max-width: 576px) {
+  .badge{
+    font-size: 45%;
+  }
+}

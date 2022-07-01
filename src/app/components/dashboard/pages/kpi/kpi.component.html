@@ -1,0 +1,87 @@
+<div class="row match-height">
+
+  <div class="columna">
+    <div class="card card-kpi">
+      <div class="card-header text-center pb-0">
+        <span class="text-danger titulo">CFDIs por revisar</span>
+        <p class="mt-2" *ngIf="!CFDIsTotales">
+          <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+        </p>
+        <h3 class="font-large-2 mt-1" *ngIf="CFDIsPorRevisar">{{CFDIsPorRevisar.valor}}</h3>
+      </div>
+      <div class="card-content">
+        <div class="card-body text-center">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="columna">
+    <div class="card card-kpi">
+      <div class="card-header text-center pb-0">
+        <span class="text-success titulo">CFDIs Revisados</span>
+        <p class="mt-2" *ngIf="!CFDIsTotales">
+          <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+        </p>
+        <h3 class="font-large-2 mt-1" *ngIf="CFDIsRevisados">{{CFDIsRevisados.valor}}</h3>
+      </div>
+      <div class="card-content">
+        <div class="card-body text-center">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="columna">
+    <div class="card card-kpi">
+      <div class="card-header text-center pb-0">
+        <span class="text-primary titulo">CFDIs Totales</span>
+        <p class="mt-2" *ngIf="!CFDIsTotales">
+          <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+        </p>
+        <h3 class="font-large-2 mt-1" *ngIf="CFDIsTotales">{{CFDIsTotales.valor}}</h3>
+      </div>
+      <div class="card-content">
+        <div class="card-body text-center">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="columna">
+    <div class="card card-kpi">
+      <div class="card-header text-center pb-0">
+        <span class="text-info titulo">Proveedores</span>
+        <p class="mt-2" *ngIf="!CFDIsTotales">
+          <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+        </p>
+        <h3 class="font-large-2 mt-1" *ngIf="proveedores">{{proveedores.valor}}</h3>
+      </div>
+      <div class="card-content">
+        <div class="card-body text-center">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="columna">
+    <div class="card card-kpi">
+      <div class="card-header text-center pb-0" >
+        <span class="text-warning titulo">Cartas emitidas</span>
+        <p class="mt-2" *ngIf="!CFDIsTotales">
+          <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+        </p>
+        <h3 class="font-large-2 mt-1" *ngIf="cartasEmitidas">{{cartasEmitidas.valor}}</h3>
+      </div>
+      <div class="card-content">
+        <div class="card-body text-center">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div>
+  <canvas id="pieChart"></canvas>
+</div>

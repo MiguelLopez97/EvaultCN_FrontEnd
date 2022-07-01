@@ -1,0 +1,36 @@
+.card-detalles{
+    box-shadow: 0px 5px 5px 5px #888888;
+}
+
+.icon-detalle{
+    color: #E5D429;
+}
+
+//Botón Regresar
+.btn-back {
+    border-color: #5D5D5D;
+    color: #5D5D5D;
+    background-color: #FFFFFF;
+}
+  
+.btn-back:hover {
+    background-color: #5D5D5D;
+    color: white;
+}
+//End Botón Regresar
+
+//Estilos para los Tabs (Detalle de la Partida y Detalle del Cálculo)
+.nav-link i {
+    color: #E5D429;
+}
+
+.nav-link {
+    color: #5D5D5D;
+    font-size: 16px;
+}
+
+.nav-link.active {
+    color: #A0C334;
+    font-size: 16px;
+}
+//End Estilos para los Tabs (Detalle de la Partida y Detalle del Cálculo)

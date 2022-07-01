@@ -1,0 +1,164 @@
+<div class="alert text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-circle-notch fa-spin fa-5x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<!---
+<div class="alert alert-dark text-center" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>-->
+
+<form (ngSubmit)="guardarUsuario(usuarioForm, tabSet)" #usuarioForm="ngForm" *ngIf="!loading">
+  <div class="form-body">
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Correo</label>
+          <input type="email" 
+                  name="emailUsuario"
+                  [(ngModel)]="user.correoElectronico"
+                  class="form-control" 
+                  placeholder="example@example.com"
+                  value="{{user.correoElectronico}}"
+                  disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" 
+                  name="telefonoUsuario"
+                  #telefonoUsuario="ngModel"
+                  [(ngModel)]="user.celular"
+                  class="form-control" 
+                  [class.is-invalid]="telefonoUsuario.invalid && telefonoUsuario.touched"
+                  maxlength="14" 
+                  (keypress)="validaNumeros($event)"
+                  (keyup)="keyUpEvent(numeros)" 
+                  #numeros
+                  required>
+          <small *ngIf="telefonoUsuario.invalid && telefonoUsuario.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label>Nombre(s) y Apellidos</label>
+          <input type="text" 
+                  name="nombreUsuario"
+                  #nombreUsuario="ngModel"
+                  [(ngModel)]="user.nombreUsuario"
+                  class="form-control" 
+                  [class.is-invalid]="nombreUsuario.invalid && nombreUsuario.touched"
+                  placeholder="Nombre(s)"
+                  (keypress)="validaLetras($event)"
+                  required>
+          <small *ngIf="nombreUsuario.invalid && nombreUsuario.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <div class="d-none d-md-block"><label>&nbsp;</label></div>
+          <input type="text"
+                  name="aPaternoUsuario"
+                  #aPaternoUsuario="ngModel"
+                  [(ngModel)]="user.apellidoPat" 
+                  class="form-control" 
+                  [class.is-invalid]="aPaternoUsuario.invalid && aPaternoUsuario.touched"
+                  placeholder="Apellido Paterno"
+                  (keypress)="validaLetras($event)"
+                  required>
+          <small *ngIf="aPaternoUsuario.invalid && aPaternoUsuario.touched" class="form-text text-danger"><i>*Campo requerido</i></small>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <div class="d-none d-md-block"><label>&nbsp;</label></div>
+          <input type="text"
+                  name="aMaternoUsuario"
+                  [(ngModel)]="user.apellidoMat" 
+                  class="form-control"
+                  (keypress)="validaLetras($event)"
+                  placeholder="Apellido Materno">                           
+        </div>
+      </div>
+    </div>
+
+    <!--- Seccion Modal Cambiar Contraseña-->
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">    
+          <label>&nbsp;Cambiar contraseña<i class="fas fa-key"></i></label><br>
+          <button type="button" class="btn btn-change-pass" (click)="open(content)">Cambiar contraseña</button>
+          <!---Modal "Cambiar contraseña"-->
+          <ng-template #content let-c="close" let-d="dismiss" class="animated fadeInLeft">
+            <div class="card">
+              <div class="card-header">
+                  <h4 class="card-title mb-0 text-center">Cambiar contraseña</h4>
+              </div>
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="container contenedor">
+                    <form [formGroup]="changePassForm" (ngSubmit)="cambiarPassword()">
+                      <div class="form-group">
+                        <input type="password"                              
+                                class="form-control" 
+                                placeholder="Contraseña actual" 
+                                formControlName="passActual"
+                                [class.is-invalid]="passActualNoValido"
+                                [class.is-valid]="passActualValido">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" 
+                                class="form-control" 
+                                placeholder="Nueva contraseña" 
+                                formControlName="nuevaPass1"
+                                [class.is-invalid]="pass1NoValido"
+                                [class.is-valid]="pass1Valido">
+                      </div>
+                      <div class="form-group">
+                        <input type="password"                               
+                                class="form-control" 
+                                placeholder="Confirmar contraseña" 
+                                formControlName="nuevaPass2"
+                                [class.is-invalid]="pass2NoValido"
+                                [class.is-valid]="pass2Valido">
+                      </div>
+                      <div class="fg-actions d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-save-pass">Guardar</button> 
+                        <button type="button" class="btn btn-cancel-pass" aria-label="Close" (click)="d('Cross click')">Cancelar</button> 
+                      </div>    
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <!---End Modal "Cambiar contraseña"-->
+        </div> 
+      </div>
+    </div>
+    <!---End Seccion Modal Cambiar Contraseña-->
+    
+  </div>
+  <div class="form-actions">
+    <div class="text-right">           
+      <button type="button" class="btn mr-1 btn-raised btn-cancel" (click)="cancelarFormulario(usuarioForm)">Cancelar </button>                        
+      <button type="submit" class="btn btn-raised btn-save">Guardar </button>                            
+    </div>
+  </div>
+</form>

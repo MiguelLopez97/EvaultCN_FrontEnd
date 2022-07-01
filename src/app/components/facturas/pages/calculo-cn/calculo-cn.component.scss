@@ -1,0 +1,12 @@
+h5 {
+    font-size: 1.6rem;
+}
+
+.fa-spin {
+    color: #5D5D5D;
+}
+
+//Quitar hover de la fila de la tabla
+tr.fila-sin-hover:hover{
+    background-color: transparent !important;
+}
